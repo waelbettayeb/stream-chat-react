@@ -29,6 +29,8 @@ export class ReactTextareaAutocomplete extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('textarea');
+
     const { loadingComponent, trigger, value } = this.props;
 
     // TODO: it would be better to have the parent control state...
@@ -421,9 +423,9 @@ export class ReactTextareaAutocomplete extends React.Component {
   };
 
   // TODO: This is an anti pattern in react, should come up with a better way
-  _update({ trigger, value }) {
+  _update({ keycodeSubmitKeys, trigger, value }) {
     const { value: oldValue } = this.state;
-    const { trigger: oldTrigger } = this.props;
+    const { keycodeSubmitKeys: oldKeycodeSubmitKeys, trigger: oldTrigger } = this.props;
 
     if (value !== oldValue || !oldValue) this.setState({ value });
     /**
@@ -431,6 +433,24 @@ export class ReactTextareaAutocomplete extends React.Component {
      */
     if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
       this._createRegExp();
+    }
+
+    /**
+     * check if keycode submit key values are changed
+     */
+    {
+      const listenerIndex = {};
+      if (oldKeycodeSubmitKeys?.length > 1 && !keycodeSubmitKeys) {
+        const enterIndex = Listeners.add(KEY_CODES.ENTER, (e) => this._onEnter(e));
+        listenerIndex[enterIndex] = enterIndex;
+      } else if (keycodeSubmitKeys) {
+        const keycodeIndex = this.addKeycodeSubmitListeners(keycodeSubmitKeys);
+        listenerIndex[keycodeIndex] = keycodeIndex;
+      }
+
+      this.setState({
+        listenerIndex,
+      });
     }
   }
 
