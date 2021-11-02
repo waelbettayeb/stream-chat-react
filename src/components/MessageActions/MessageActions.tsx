@@ -168,5 +168,5 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
 
   if (inline) return <span {...wrapperProps}>{children}</span>;
 
-  return <div {...wrapperProps}>{children}</div>;
+  return <button {...wrapperProps}>{children}</button>;
 };
