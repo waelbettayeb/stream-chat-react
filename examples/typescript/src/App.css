@@ -17,75 +17,19 @@ body {
   height: 100%;
 }
 
-/* div.str-chat.str-chat-channel.messaging.light > div > div > div.str-chat__list > div > ul > li:nth-child(2) > div:focus {
-  background: yellow;
-} */
-
-/* .str-chat.str-chat-channel.messaging.light > div > div > div.str-chat__list > div > ul > li:nth-child(2) > div:focus {
-	background: red;
-} */
-
-/* .str-chat__message:focus {
-  background: red;
-} */
-
-/* .str-chat__message-simple {
-	 font-family: var(--second-font);
-}
- .str-chat__message-simple__actions {
-	 display: flex;
-}
- .str-chat__message-simple__actions__action {
-	 margin: var(--xxs-m);
-	 display: flex;
-	 align-items: center;
-	 height: 10px;
-	 cursor: pointer;
-}
- .str-chat__message-simple__actions__action svg {
-	 fill: var(--black);
-	 opacity: 0.5;
-}
- .str-chat__message-simple__actions__action:hover svg {
-	 opacity: 1;
-} */
-
-
-
- /* .str-chat__message-simple__actions__action:focus svg {
-	 opacity: 1;
-	 display: flex;
-} */
-
-
-
- /* .str-chat__message-simple__actions__action--thread, .str-chat__message-simple__actions__action--reactions {
-	 display: none;
-}
- .str-chat__message-simple__actions__action--options {
-	 position: relative;
-	 display: none;
-}
- .str-chat__message-simple:hover .str-chat__message-simple__actions__action--thread {
-	 display: flex;
-}
- .str-chat__message-simple:hover .str-chat__message-simple__actions__action--reactions {
-	 display: flex;
-} */
- .str-chat__message-simple:focus-visible .str-chat__message-simple__actions__action--thread {
-	 display: flex;
-}
- .str-chat__message-simple:focus .str-chat__message-simple__actions__action--reactions {
-	 display: flex;
-}
- .str-chat__message-simple:focus .str-chat__message-simple__actions__action--options {
-	 display: flex;
+.str-chat__message-simple:focus-within .str-chat__message-simple__actions__action--thread {
+  display: flex;
 }
 
-.str-chat__message .str-chat__message-simple:focus .str-chat__message-simple__actions__action--thread {
-	display: flex;
+.str-chat__message-simple:focus-within .str-chat__message-simple__actions__action--reactions {
+  display: flex;
 }
 
-.str-chat__message-text-inner .str-chat__message-simple-text-inner:focus-visible:focus .str-chat__message-simple__actions__action--thread {
-	display: flex;
+.str-chat__message-simple:focus-within .str-chat__message-simple__actions__action--options {
+  display: flex;
+}
+
+button {
+	background: none;
+	border: none;
 }

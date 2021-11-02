@@ -132,6 +132,7 @@ const MessageSimpleWithContext = <
           key={message.id}
           onFocus={(e) => console.log('hi', e.target)}
           ref={messageWrapperRef}
+          tabIndex={0}
         >
           <MessageStatus />
           {message.user && (
