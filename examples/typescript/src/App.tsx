@@ -10,6 +10,7 @@ import {
   Thread,
   Window,
 } from 'stream-chat-react';
+// import { FocusRingScope } from 'react-focus-rings';
 import 'stream-chat-css/dist/css/index.css';
 import './App.css';
 
@@ -30,18 +31,25 @@ if (process.env.REACT_APP_CHAT_SERVER_ENDPOINT) {
 
 chatClient.connectUser({ id: userId }, userToken);
 
-const App = () => (
-  <Chat client={chatClient} theme={`messaging ${theme}`}>
-    <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
-    <Channel>
-      <Window>
-        <ChannelHeader />
-        <MessageList />
-        <MessageInput focus />
-      </Window>
-      <Thread />
-    </Channel>
-  </Chat>
-);
+const App = () => {
+  // const containerRef = React.useRef<HTMLDivElement>(null);
+  return (
+    <Chat client={chatClient} theme={`messaging ${theme}`}>
+      {/* <div ref={containerRef}>
+        <FocusRingScope containerRef={containerRef}> */}
+      <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
+      <Channel>
+        <Window>
+          <ChannelHeader />
+          <MessageList />
+          <MessageInput focus />
+        </Window>
+        <Thread />
+      </Channel>
+      {/* </FocusRingScope>
+      </div> */}
+    </Chat>
+  );
+};
 
 export default App;
