@@ -104,7 +104,7 @@ export const EditMessageForm = <
                 </div>
               )}
             </div>
-            <div>
+            <div className='str-chat__exit'>
               <button
                 onClick={() => {
                   if (clearEditingState) {
