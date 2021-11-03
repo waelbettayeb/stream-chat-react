@@ -17,6 +17,10 @@ body {
   height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .str-chat__message-simple:focus-within .str-chat__message-simple__actions__action--thread {
   display: flex;
 }
@@ -30,6 +34,22 @@ body {
 }
 
 button {
-	background: none;
-	border: none;
+  cursor: pointer;
+  /* background: none; */
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  /* display: inline-flex; */
+  align-items: center;
+  /* justify-content: center; */
+  outline-offset: 2px;
+  /* font-size: 1rem;
+  text-align: center; */
+  /* font-family: inherit; */
+  /* font-family: system-ui, sans-serif; */
+}
+
+.rfu-file-upload-button:focus-within {
+  outline: 5px auto -webkit-focus-ring-color;
 }

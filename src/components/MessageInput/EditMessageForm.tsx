@@ -81,9 +81,9 @@ export const EditMessageForm = <
           <ChatAutoComplete />
           <div className='str-chat__message-team-form-footer'>
             <div className='str-chat__edit-message-form-options'>
-              <span className='str-chat__input-emojiselect' onClick={openEmojiPicker}>
+              <button className='str-chat__input-emojiselect' onClick={openEmojiPicker}>
                 <EmojiIcon />
-              </span>
+              </button>
               {isUploadEnabled && (
                 <div className='str-chat__fileupload-wrapper' data-testid='fileinput'>
                   <Tooltip>
