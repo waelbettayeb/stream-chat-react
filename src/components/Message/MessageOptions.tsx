@@ -1,4 +1,5 @@
 import React from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import {
   ActionsIcon as DefaultActionsIcon,
@@ -97,25 +98,31 @@ const UnMemoizedMessageOptions = <
     return (
       <div className={`str-chat__message-${theme}__actions`} data-testid='message-options-left'>
         {showActionsBox && (
-          <MessageActions ActionsIcon={ActionsIcon} messageWrapperRef={messageWrapperRef} />
+          <FocusRing offset={-2}>
+            <MessageActions ActionsIcon={ActionsIcon} messageWrapperRef={messageWrapperRef} />
+          </FocusRing>
         )}
         {shouldShowReplies && (
-          <button
-            className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
-            data-testid='thread-action'
-            onClick={handleOpenThread}
-          >
-            <ThreadIcon />
-          </button>
+          <FocusRing offset={-2}>
+            <button
+              className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
+              data-testid='thread-action'
+              onClick={handleOpenThread}
+            >
+              <ThreadIcon />
+            </button>
+          </FocusRing>
         )}
         {shouldShowReactions && (
-          <button
-            className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
-            data-testid='message-reaction-action'
-            onClick={onReactionListClick}
-          >
-            <ReactionIcon />
-          </button>
+          <FocusRing offset={-2}>
+            <button
+              className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
+              data-testid='message-reaction-action'
+              onClick={onReactionListClick}
+            >
+              <ReactionIcon />
+            </button>
+          </FocusRing>
         )}
       </div>
     );
@@ -124,25 +131,31 @@ const UnMemoizedMessageOptions = <
   return (
     <div className={`str-chat__message-${theme}__actions`} data-testid='message-options'>
       {shouldShowReactions && (
-        <button
-          className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
-          data-testid='message-reaction-action'
-          onClick={onReactionListClick}
-        >
-          <ReactionIcon />
-        </button>
+        <FocusRing offset={-2}>
+          <button
+            className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
+            data-testid='message-reaction-action'
+            onClick={onReactionListClick}
+          >
+            <ReactionIcon />
+          </button>
+        </FocusRing>
       )}
       {shouldShowReplies && (
-        <button
-          className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
-          data-testid='thread-action'
-          onClick={handleOpenThread}
-        >
-          <ThreadIcon />
-        </button>
+        <FocusRing offset={-2}>
+          <button
+            className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
+            data-testid='thread-action'
+            onClick={handleOpenThread}
+          >
+            <ThreadIcon />
+          </button>
+        </FocusRing>
       )}
       {showActionsBox && (
-        <MessageActions ActionsIcon={ActionsIcon} messageWrapperRef={messageWrapperRef} />
+        <FocusRing offset={-2}>
+          <MessageActions ActionsIcon={ActionsIcon} messageWrapperRef={messageWrapperRef} />
+        </FocusRing>
       )}
     </div>
   );

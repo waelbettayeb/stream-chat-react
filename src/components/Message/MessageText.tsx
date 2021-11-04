@@ -104,7 +104,6 @@ const UnMemoizedMessageTextComponent = <
         data-testid='message-text-inner-wrapper'
         onClick={onMentionsClickMessage}
         onMouseOver={onMentionsHoverMessage}
-        // tabIndex={0}
       >
         {message.quoted_message && <QuotedMessage />}
         {message.type === 'error' && (

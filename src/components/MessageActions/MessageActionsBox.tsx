@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { MESSAGE_ACTIONS } from '../Message/utils';
 
@@ -48,6 +49,7 @@ const CustomMessageActionsList = <
 ) => {
   const { customMessageActions, message } = props;
   const customActionsArray = Object.keys(customMessageActions);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -55,9 +57,16 @@ const CustomMessageActionsList = <
         const customHandler = customMessageActions[customAction];
 
         return (
-          <button key={customAction} onClick={(event) => customHandler(message, event)}>
-            <li className='str-chat__message-actions-list-item'>{customAction}</li>
-          </button>
+          // eslint-disable-next-line react/jsx-key
+          <div ref={containerRef}>
+            <FocusRingScope containerRef={containerRef}>
+              <FocusRing>
+                <button key={customAction} onClick={(event) => customHandler(message, event)}>
+                  <li className='str-chat__message-actions-list-item'>{customAction}</li>
+                </button>
+              </FocusRing>
+            </FocusRingScope>
+          </div>
         );
       })}
     </>
@@ -126,6 +135,8 @@ const UnMemoizedMessageActionsBox = <
 
   const [reverse, setReverse] = useState(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const messageActions = getMessageActions();
 
   const checkIfReverse = useCallback(
@@ -170,53 +181,60 @@ const UnMemoizedMessageActionsBox = <
       ref={checkIfReverse}
     >
       <ul className='str-chat__message-actions-list'>
-        {customMessageActions && (
-          <CustomMessageActionsList customMessageActions={customMessageActions} message={message} />
-        )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.quote) > -1 &&
-          !message.parent_id &&
-          !message.quoted_message && (
-            <button onClick={handleQuote} tabIndex={-1}>
+        <FocusRingScope containerRef={containerRef}>
+          {customMessageActions && (
+            <CustomMessageActionsList
+              customMessageActions={customMessageActions}
+              message={message}
+            />
+          )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.quote) > -1 &&
+            !message.parent_id &&
+            !message.quoted_message && (
+              <FocusRing>
+                <button onClick={handleQuote} tabIndex={-1}>
+                  <li className='str-chat__message-actions-list-item' tabIndex={0}>
+                    {t('Reply')}
+                  </li>
+                </button>
+              </FocusRing>
+            )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.pin) > -1 && !message.parent_id && (
+            <button onClick={handlePin} tabIndex={-1}>
               <li className='str-chat__message-actions-list-item' tabIndex={0}>
-                {t('Reply')}
+                {!message.pinned ? t('Pin') : t('Unpin')}
               </li>
             </button>
           )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.pin) > -1 && !message.parent_id && (
-          <button onClick={handlePin} tabIndex={-1}>
-            <li className='str-chat__message-actions-list-item' tabIndex={0}>
-              {!message.pinned ? t('Pin') : t('Unpin')}
-            </li>
-          </button>
-        )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.flag) > -1 && (
-          <button onClick={handleFlag} tabIndex={-1}>
-            <li className='str-chat__message-actions-list-item' tabIndex={0}>
-              {t('Flag')}
-            </li>
-          </button>
-        )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.mute) > -1 && (
-          <button onClick={handleMute} tabIndex={-1}>
-            <li className='str-chat__message-actions-list-item' tabIndex={0}>
-              {isUserMuted() ? t('Unmute') : t('Mute')}
-            </li>
-          </button>
-        )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.edit) > -1 && (
-          <button onClick={handleEdit} tabIndex={-1}>
-            <li className='str-chat__message-actions-list-item' tabIndex={0}>
-              {t('Edit Message')}
-            </li>
-          </button>
-        )}
-        {messageActions.indexOf(MESSAGE_ACTIONS.delete) > -1 && (
-          <button onClick={handleDelete} tabIndex={-1}>
-            <li className='str-chat__message-actions-list-item' tabIndex={0}>
-              {t('Delete')}
-            </li>
-          </button>
-        )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.flag) > -1 && (
+            <button onClick={handleFlag} tabIndex={-1}>
+              <li className='str-chat__message-actions-list-item' tabIndex={0}>
+                {t('Flag')}
+              </li>
+            </button>
+          )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.mute) > -1 && (
+            <button onClick={handleMute} tabIndex={-1}>
+              <li className='str-chat__message-actions-list-item' tabIndex={0}>
+                {isUserMuted() ? t('Unmute') : t('Mute')}
+              </li>
+            </button>
+          )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.edit) > -1 && (
+            <button onClick={handleEdit} tabIndex={-1}>
+              <li className='str-chat__message-actions-list-item' tabIndex={0}>
+                {t('Edit Message')}
+              </li>
+            </button>
+          )}
+          {messageActions.indexOf(MESSAGE_ACTIONS.delete) > -1 && (
+            <button onClick={handleDelete} tabIndex={-1}>
+              <li className='str-chat__message-actions-list-item' tabIndex={0}>
+                {t('Delete')}
+              </li>
+            </button>
+          )}
+        </FocusRingScope>
       </ul>
     </div>
   );

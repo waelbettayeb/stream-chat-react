@@ -64,3 +64,7 @@ button {
   display: flex;
   justify-content: center;
 }
+
+.str-chat__edit-message-form {
+  position: relative;
+}

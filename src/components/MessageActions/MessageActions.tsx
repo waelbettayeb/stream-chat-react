@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { MessageActionsBox } from './MessageActionsBox';
 
@@ -166,7 +167,15 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
     onClick: onClickOptionsAction,
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   if (inline) return <span {...wrapperProps}>{children}</span>;
 
-  return <button {...wrapperProps}>{children}</button>;
+  return (
+    <FocusRingScope containerRef={containerRef}>
+      <FocusRing>
+        <button {...wrapperProps}>{children}</button>
+      </FocusRing>
+    </FocusRingScope>
+  );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { ReplyIcon } from './icons';
 
@@ -41,14 +42,16 @@ const UnMemoizedMessageRepliesCountButton: React.FC<MessageRepliesCountButtonPro
 
   if (reply_count && reply_count !== 0) {
     return (
-      <button
-        className='str-chat__message-replies-count-button'
-        data-testid='replies-count-button'
-        onClick={onClick}
-      >
-        <ReplyIcon />
-        {reply_count === 1 ? singleReplyText : pluralReplyText}
-      </button>
+      <FocusRing offset={-2}>
+        <button
+          className='str-chat__message-replies-count-button'
+          data-testid='replies-count-button'
+          onClick={onClick}
+        >
+          <ReplyIcon />
+          {reply_count === 1 ? singleReplyText : pluralReplyText}
+        </button>
+      </FocusRing>
     );
   }
 

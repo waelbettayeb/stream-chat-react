@@ -1,4 +1,5 @@
 import React, { Suspense, useMemo } from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { getStrippedEmojiData, ReactionEmoji } from '../Channel/emojiData';
 
@@ -121,19 +122,21 @@ const UnMemoizedReactionsList = <
           const emojiObject = getEmojiByReactionType(reactionType);
 
           return emojiObject ? (
-            <button key={emojiObject.id}>
-              {
-                <Suspense fallback={null}>
-                  <Emoji
-                    data={emojiData}
-                    emoji={emojiObject}
-                    size={16}
-                    {...(reactionsAreCustom ? additionalEmojiProps : emojiSetDef)}
-                  />
-                </Suspense>
-              }
-              &nbsp;
-            </button>
+            <FocusRing offset={{ left: -4 }}>
+              <button key={emojiObject.id}>
+                {
+                  <Suspense fallback={null}>
+                    <Emoji
+                      data={emojiData}
+                      emoji={emojiObject}
+                      size={16}
+                      {...(reactionsAreCustom ? additionalEmojiProps : emojiSetDef)}
+                    />
+                  </Suspense>
+                }
+                &nbsp;
+              </button>
+            </FocusRing>
           ) : null;
         })}
         <li>
