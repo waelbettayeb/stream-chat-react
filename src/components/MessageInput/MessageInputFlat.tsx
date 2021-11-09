@@ -73,12 +73,14 @@ export const MessageInputFlat = <
   } = useComponentContext<At, Ch, Co, Ev, Me, Re, Us>('MessageInputFlat');
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef2 = useRef<HTMLDivElement>(null);
 
   return (
     <div
       className={`str-chat__input-flat ${
         SendButton ? 'str-chat__input-flat--send-button-active' : null
       } ${quotedMessage ? 'str-chat__input-flat-quoted' : null}`}
+      onFocus={(e) => console.log('e', e.target)}
     >
       <ImageDropzone
         accept={acceptedFiles}
@@ -90,55 +92,66 @@ export const MessageInputFlat = <
         {quotedMessage && <QuotedMessagePreview quotedMessage={quotedMessage} />}
         <div className='str-chat__input-flat-wrapper'>
           <div className='str-chat__input-flat--textarea-wrapper' ref={containerRef}>
-            {isUploadEnabled && <UploadsPreview />}
-            <div className='str-chat__emojiselect-wrapper'>
-              <Tooltip>
-                {emojiPickerIsOpen ? t('Close emoji picker') : t('Open emoji picker')}
-              </Tooltip>
-              <span
-                className='str-chat__input-flat-emojiselect'
-                onClick={emojiPickerIsOpen ? closeEmojiPicker : openEmojiPicker}
-                onKeyDown={handleEmojiKeyDown}
-                role='button'
-                tabIndex={0}
-              >
-                {cooldownRemaining ? (
-                  <div className='str-chat__input-flat-cooldown'>
-                    <CooldownTimer
-                      cooldownInterval={cooldownInterval}
-                      setCooldownRemaining={setCooldownRemaining}
-                    />
-                  </div>
-                ) : (
-                  <EmojiIcon />
-                )}
-              </span>
-            </div>
-            <EmojiPicker />
             <FocusRingScope containerRef={containerRef}>
+              {isUploadEnabled && <UploadsPreview />}
+              <div className='str-chat__emojiselect-wrapper'>
+                <Tooltip>
+                  {emojiPickerIsOpen ? t('Close emoji picker') : t('Open emoji picker')}
+                </Tooltip>
+                <FocusRing>
+                  <span
+                    className='str-chat__input-flat-emojiselect'
+                    onClick={emojiPickerIsOpen ? closeEmojiPicker : openEmojiPicker}
+                    onKeyDown={handleEmojiKeyDown}
+                    role='button'
+                    tabIndex={0}
+                  >
+                    {cooldownRemaining ? (
+                      <div className='str-chat__input-flat-cooldown'>
+                        <CooldownTimer
+                          cooldownInterval={cooldownInterval}
+                          setCooldownRemaining={setCooldownRemaining}
+                        />
+                      </div>
+                    ) : (
+                      <EmojiIcon />
+                    )}
+                  </span>
+                </FocusRing>
+              </div>
+              <EmojiPicker />
               <FocusRing>
                 <ChatAutoComplete />
               </FocusRing>
-            </FocusRingScope>
-            {isUploadEnabled && !cooldownRemaining && (
-              <div className='str-chat__fileupload-wrapper' data-testid='fileinput'>
-                <Tooltip>
-                  {maxFilesLeft
-                    ? t('Attach files')
-                    : t("You've reached the maximum number of files")}
-                </Tooltip>
-                <FileUploadButton
-                  accepts={acceptedFiles}
-                  disabled={maxFilesLeft === 0}
-                  handleFiles={uploadNewFiles}
-                  multiple={multipleUploads}
+              {isUploadEnabled && !cooldownRemaining && (
+                <div
+                  className='str-chat__fileupload-wrapper'
+                  data-testid='fileinput'
+                  ref={containerRef2}
+                  style={{ position: 'relative' }}
                 >
-                  <span className='str-chat__input-flat-fileupload'>
-                    <FileUploadIcon />
-                  </span>
-                </FileUploadButton>
-              </div>
-            )}
+                  <FocusRingScope containerRef={containerRef2}>
+                    <Tooltip>
+                      {maxFilesLeft
+                        ? t('Attach files')
+                        : t("You've reached the maximum number of files")}
+                    </Tooltip>
+                    <FileUploadButton
+                      accepts={acceptedFiles}
+                      disabled={maxFilesLeft === 0}
+                      handleFiles={uploadNewFiles}
+                      multiple={multipleUploads}
+                    >
+                      <FocusRing offset={-2}>
+                        <span className='str-chat__input-flat-fileupload' tabIndex={0}>
+                          <FileUploadIcon />
+                        </span>
+                      </FocusRing>
+                    </FileUploadButton>
+                  </FocusRingScope>
+                </div>
+              )}
+            </FocusRingScope>
           </div>
           {!cooldownRemaining && <SendButton sendMessage={handleSubmit} />}
         </div>

@@ -137,7 +137,6 @@ const MessageSimpleWithContext = <
             ${endOfGroup ? 'str-chat__virtual-message__wrapper--end' : ''}
 					`.trim()}
               key={message.id}
-              // onFocus={(e) => console.log('hi', e.target)}
               ref={messageWrapperRef}
               tabIndex={0}
             >
