@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { FocusRing } from 'react-focus-rings';
 
 import { MessageContextValue, useMessageContext } from '../../context/MessageContext';
 import {
@@ -123,11 +122,9 @@ const UnMemoizedMessageTimestamp = <
   if (!when) return null;
 
   return (
-    <FocusRing offset={-2}>
-      <time className={customClass} dateTime={createdAt} tabIndex={0} title={createdAt}>
-        {when}
-      </time>
-    </FocusRing>
+    <time className={customClass} dateTime={createdAt} title={createdAt}>
+      {when}
+    </time>
   );
 };
 

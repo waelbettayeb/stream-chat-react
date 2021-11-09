@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { FileUploadButton, ImageDropzone } from 'react-file-utils';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { EmojiPicker } from './EmojiPicker';
 import { CooldownTimer as DefaultCooldownTimer } from './hooks/useCooldownTimer';
@@ -71,6 +72,8 @@ export const MessageInputFlat = <
     SendButton = DefaultSendButton,
   } = useComponentContext<At, Ch, Co, Ev, Me, Re, Us>('MessageInputFlat');
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <div
       className={`str-chat__input-flat ${
@@ -86,7 +89,7 @@ export const MessageInputFlat = <
       >
         {quotedMessage && <QuotedMessagePreview quotedMessage={quotedMessage} />}
         <div className='str-chat__input-flat-wrapper'>
-          <div className='str-chat__input-flat--textarea-wrapper'>
+          <div className='str-chat__input-flat--textarea-wrapper' ref={containerRef}>
             {isUploadEnabled && <UploadsPreview />}
             <div className='str-chat__emojiselect-wrapper'>
               <Tooltip>
@@ -112,7 +115,11 @@ export const MessageInputFlat = <
               </span>
             </div>
             <EmojiPicker />
-            <ChatAutoComplete />
+            <FocusRingScope containerRef={containerRef}>
+              <FocusRing>
+                <ChatAutoComplete />
+              </FocusRing>
+            </FocusRingScope>
             {isUploadEnabled && !cooldownRemaining && (
               <div className='str-chat__fileupload-wrapper' data-testid='fileinput'>
                 <Tooltip>

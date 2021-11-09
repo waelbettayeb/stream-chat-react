@@ -172,10 +172,12 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
   if (inline) return <span {...wrapperProps}>{children}</span>;
 
   return (
-    <FocusRingScope containerRef={containerRef}>
-      <FocusRing>
-        <button {...wrapperProps}>{children}</button>
-      </FocusRing>
-    </FocusRingScope>
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      <FocusRingScope containerRef={containerRef}>
+        <FocusRing offset={-2}>
+          <button {...wrapperProps}>{children}</button>
+        </FocusRing>
+      </FocusRingScope>
+    </div>
   );
 };

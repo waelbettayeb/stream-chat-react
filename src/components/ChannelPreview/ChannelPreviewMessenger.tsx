@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { Avatar as DefaultAvatar } from '../Avatar';
 
@@ -38,6 +39,7 @@ const UnMemoizedChannelPreviewMessenger = <
   } = props;
 
   const channelPreviewButton = useRef<HTMLButtonElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const activeClass = active ? 'str-chat__channel-preview-messenger--active' : '';
   const unreadClass = unread && unread >= 1 ? 'str-chat__channel-preview-messenger--unread' : '';
@@ -55,22 +57,30 @@ const UnMemoizedChannelPreviewMessenger = <
   };
 
   return (
-    <button
-      className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
-      data-testid='channel-preview-button'
-      onClick={onSelectChannel}
-      ref={channelPreviewButton}
-    >
-      <div className='str-chat__channel-preview-messenger--left'>
-        <Avatar image={displayImage} name={avatarName} size={40} />
-      </div>
-      <div className='str-chat__channel-preview-messenger--right'>
-        <div className='str-chat__channel-preview-messenger--name'>
-          <span>{displayTitle}</span>
-        </div>
-        <div className='str-chat__channel-preview-messenger--last-message'>{latestMessage}</div>
-      </div>
-    </button>
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      <FocusRingScope containerRef={containerRef}>
+        <FocusRing offset={-2}>
+          <button
+            className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
+            data-testid='channel-preview-button'
+            onClick={onSelectChannel}
+            ref={channelPreviewButton}
+          >
+            <div className='str-chat__channel-preview-messenger--left'>
+              <Avatar image={displayImage} name={avatarName} size={40} />
+            </div>
+            <div className='str-chat__channel-preview-messenger--right'>
+              <div className='str-chat__channel-preview-messenger--name'>
+                <span>{displayTitle}</span>
+              </div>
+              <div className='str-chat__channel-preview-messenger--last-message'>
+                {latestMessage}
+              </div>
+            </div>
+          </button>
+        </FocusRing>
+      </FocusRingScope>
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { useTranslationContext } from '../../context/TranslationContext';
 
@@ -73,15 +74,17 @@ export const SearchInput = <
   const { t } = useTranslationContext('SearchInput');
 
   return (
-    <input
-      className='str-chat__channel-search-input'
-      onChange={(event: React.BaseSyntheticEvent) =>
-        searchFunction ? searchFunction(channelSearchParams, event) : onSearch(event)
-      }
-      placeholder={t('Search')}
-      ref={inputRef}
-      type='text'
-      value={query}
-    />
+    <FocusRing>
+      <input
+        className='str-chat__channel-search-input'
+        onChange={(event: React.BaseSyntheticEvent) =>
+          searchFunction ? searchFunction(channelSearchParams, event) : onSearch(event)
+        }
+        placeholder={t('Search')}
+        ref={inputRef}
+        type='text'
+        value={query}
+      />
+    </FocusRing>
   );
 };

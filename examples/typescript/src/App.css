@@ -43,7 +43,8 @@ button {
   /* display: inline-flex; */
   align-items: center;
   /* justify-content: center; */
-  outline-offset: 2px;
+  /* outline-offset: 2px; */
+  outline: none
   /* font-size: 1rem;
   text-align: center; */
   /* font-family: inherit; */
@@ -67,4 +68,12 @@ button {
 
 .str-chat__edit-message-form {
   position: relative;
+}
+
+.str-chat-channel-list .str-chat__channel-list-messenger__main {
+  padding-bottom: 4px;
+}
+
+.str-chat__channel-search {
+  padding-bottom: 4px;
 }

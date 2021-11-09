@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { ChannelOrUserResponse, isChannel } from './utils';
 
@@ -45,17 +46,25 @@ const DefaultDropdownContainer = <
 ) => {
   const { focusedUser, results, SearchResultItem = DefaultSearchResultItem, selectResult } = props;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div>
-      {results.map((result, index) => (
-        <SearchResultItem
-          focusedUser={focusedUser}
-          index={index}
-          key={index}
-          result={result}
-          selectResult={selectResult}
-        />
-      ))}
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      <FocusRingScope containerRef={containerRef}>
+        {results.map((result, index) => (
+          <div key={index}>
+            <FocusRing>
+              <SearchResultItem
+                focusedUser={focusedUser}
+                index={index}
+                key={index}
+                result={result}
+                selectResult={selectResult}
+              />
+            </FocusRing>
+          </div>
+        ))}
+      </FocusRingScope>
     </div>
   );
 };
@@ -94,23 +103,25 @@ const DefaultSearchResultItem = <
     const channel = result;
 
     return (
-      <div
+      <button
         className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
         onClick={() => selectResult(channel)}
       >
         <div className='result-hashtag'>#</div>
         <p className='channel-search__result-text'>{channel.data?.name}</p>
-      </div>
+      </button>
     );
   } else {
     return (
-      <div
-        className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
-        onClick={() => selectResult(result)}
-      >
-        <Avatar image={result.image} user={result} />
-        {result.name || result.id}
-      </div>
+      <FocusRing>
+        <button
+          className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
+          onClick={() => selectResult(result)}
+        >
+          <Avatar image={result.image} user={result} />
+          {result.name || result.id}
+        </button>
+      </FocusRing>
     );
   }
 };
@@ -220,7 +231,9 @@ export const SearchResults = <
         {SearchEmpty ? (
           <SearchEmpty />
         ) : (
-          <div className='str-chat__channel-search-container-empty'>{t('No results found')}</div>
+          <div className='str-chat__channel-search-container-empty' tabIndex={0}>
+            {t('No results found')}
+          </div>
         )}
       </ResultsContainer>
     );
