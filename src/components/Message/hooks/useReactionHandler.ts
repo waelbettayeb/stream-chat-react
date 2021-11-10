@@ -241,17 +241,17 @@ export const useReactionClick = <
     }
   }, [messageDeleted, closeDetailedReactions, messageWrapperRef]);
 
-  const escFunction = useCallback((event) => {
+  const escPressHandler = useCallback((event) => {
     if (event.keyCode === 27) {
       setShowDetailedReactions(false);
     }
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction);
+    document.addEventListener('keydown', escPressHandler);
 
     return () => {
-      document.removeEventListener('keydown', escFunction);
+      document.removeEventListener('keydown', escPressHandler);
     };
   }, []);
 

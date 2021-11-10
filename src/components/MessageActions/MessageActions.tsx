@@ -118,6 +118,20 @@ export const MessageActions = <
     return () => document.removeEventListener('click', hideOptions);
   }, [actionsBoxOpen, hideOptions]);
 
+  const escPressHandler = useCallback((event) => {
+    if (event.keyCode === 27) {
+      setActionsBoxOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', escPressHandler);
+
+    return () => {
+      document.removeEventListener('keydown', escPressHandler);
+    };
+  }, []);
+
   if (!messageActions.length && !customMessageActions) return null;
 
   return (
