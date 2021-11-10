@@ -241,6 +241,20 @@ export const useReactionClick = <
     }
   }, [messageDeleted, closeDetailedReactions, messageWrapperRef]);
 
+  const escFunction = useCallback((event) => {
+    if (event.keyCode === 27) {
+      setShowDetailedReactions(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction);
+
+    return () => {
+      document.removeEventListener('keydown', escFunction);
+    };
+  }, []);
+
   const onReactionListClick: ReactEventHandler = (event) => {
     if (event?.stopPropagation) {
       event.stopPropagation();
