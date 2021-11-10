@@ -184,52 +184,50 @@ const UnMemoizedReactionSelector = React.forwardRef(
             const count = reactionCounts && reactionCounts[reactionOption.id];
 
             return (
-              <div key={`item-${reactionOption.id}`}>
-                <FocusRing>
-                  <button
-                    className='str-chat__message-reactions-list-item'
-                    data-text={reactionOption.id}
-                    onClick={(event) => handleReaction(reactionOption.id, event)}
-                  >
-                    {!!count && detailedView && (
-                      <>
-                        <div
-                          className='latest-user'
-                          onClick={hideTooltip}
-                          onMouseEnter={(e) => showTooltip(e, reactionOption.id)}
-                          onMouseLeave={hideTooltip}
-                        >
-                          {latestUser ? (
-                            <Avatar
-                              image={latestUser.image}
-                              name={latestUser.name}
-                              size={20}
-                              user={latestUser}
-                            />
-                          ) : (
-                            <div className='latest-user-not-found' />
-                          )}
-                        </div>
-                      </>
-                    )}
-                    {
-                      <Suspense fallback={null}>
-                        <Emoji
-                          data={emojiData}
-                          emoji={reactionOption}
-                          size={20}
-                          {...(reactionsAreCustom ? additionalEmojiProps : emojiSetDef)}
-                        />
-                      </Suspense>
-                    }
-                    {Boolean(count) && detailedView && (
-                      <span className='str-chat__message-reactions-list-item__count'>
-                        {count || ''}
-                      </span>
-                    )}
-                  </button>
-                </FocusRing>
-              </div>
+              <FocusRing key={`item-${reactionOption.id}`}>
+                <button
+                  className='str-chat__message-reactions-list-item'
+                  data-text={reactionOption.id}
+                  onClick={(event) => handleReaction(reactionOption.id, event)}
+                >
+                  {!!count && detailedView && (
+                    <>
+                      <div
+                        className='latest-user'
+                        onClick={hideTooltip}
+                        onMouseEnter={(e) => showTooltip(e, reactionOption.id)}
+                        onMouseLeave={hideTooltip}
+                      >
+                        {latestUser ? (
+                          <Avatar
+                            image={latestUser.image}
+                            name={latestUser.name}
+                            size={20}
+                            user={latestUser}
+                          />
+                        ) : (
+                          <div className='latest-user-not-found' />
+                        )}
+                      </div>
+                    </>
+                  )}
+                  {
+                    <Suspense fallback={null}>
+                      <Emoji
+                        data={emojiData}
+                        emoji={reactionOption}
+                        size={20}
+                        {...(reactionsAreCustom ? additionalEmojiProps : emojiSetDef)}
+                      />
+                    </Suspense>
+                  }
+                  {Boolean(count) && detailedView && (
+                    <span className='str-chat__message-reactions-list-item__count'>
+                      {count || ''}
+                    </span>
+                  )}
+                </button>
+              </FocusRing>
             );
           })}
         </ul>

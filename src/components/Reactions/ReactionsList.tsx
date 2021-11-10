@@ -122,8 +122,8 @@ const UnMemoizedReactionsList = <
           const emojiObject = getEmojiByReactionType(reactionType);
 
           return emojiObject ? (
-            <FocusRing offset={{ left: -4 }}>
-              <button key={emojiObject.id}>
+            <FocusRing key={emojiObject.id} offset={{ left: -4 }}>
+              <button>
                 {
                   <Suspense fallback={null}>
                     <Emoji
