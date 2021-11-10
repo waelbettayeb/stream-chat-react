@@ -112,7 +112,7 @@ const UnMemoizedMessageOptions = <
           </FocusRing>
         )}
         {shouldShowReactions && (
-          <FocusRing offset={-4}>
+          <FocusRing offset={-2}>
             <button
               className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
               data-testid='message-reaction-action'
@@ -129,7 +129,7 @@ const UnMemoizedMessageOptions = <
   return (
     <div className={`str-chat__message-${theme}__actions`} data-testid='message-options'>
       {shouldShowReactions && (
-        <FocusRing offset={-4}>
+        <FocusRing offset={-2}>
           <button
             className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
             data-testid='message-reaction-action'

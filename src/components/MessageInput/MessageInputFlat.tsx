@@ -80,7 +80,6 @@ export const MessageInputFlat = <
       className={`str-chat__input-flat ${
         SendButton ? 'str-chat__input-flat--send-button-active' : null
       } ${quotedMessage ? 'str-chat__input-flat-quoted' : null}`}
-      onFocus={(e) => console.log('e', e.target)}
     >
       <ImageDropzone
         accept={acceptedFiles}

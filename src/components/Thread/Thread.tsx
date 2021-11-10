@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { FocusRing, FocusRingScope } from 'react-focus-rings';
 
 import { FixedHeightMessage } from '../Message/FixedHeightMessage';
 import { Message } from '../Message/Message';
@@ -126,18 +127,20 @@ const DefaultThreadHeader = <
         <strong>{t('Thread')}</strong>
         <small>{getReplyCount()}</small>
       </div>
-      <button
-        className='str-chat__square-button'
-        data-testid='close-button'
-        onClick={(event) => closeThread(event)}
-      >
-        <svg height='10' width='10' xmlns='http://www.w3.org/2000/svg'>
-          <path
-            d='M9.916 1.027L8.973.084 5 4.058 1.027.084l-.943.943L4.058 5 .084 8.973l.943.943L5 5.942l3.973 3.974.943-.943L5.942 5z'
-            fillRule='evenodd'
-          />
-        </svg>
-      </button>
+      <FocusRing>
+        <button
+          className='str-chat__square-button'
+          data-testid='close-button'
+          onClick={(event) => closeThread(event)}
+        >
+          <svg height='10' width='10' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M9.916 1.027L8.973.084 5 4.058 1.027.084l-.943.943L4.058 5 .084 8.973l.943.943L5 5.942l3.973 3.974.943-.943L5.942 5z'
+              fillRule='evenodd'
+            />
+          </svg>
+        </button>
+      </FocusRing>
     </div>
   );
 };
@@ -194,6 +197,7 @@ const ThreadInner = <
   } = useComponentContext<At, Ch, Co, Ev, Me, Re, Us>('Thread');
 
   const messageList = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const ThreadInput =
     PropInput || additionalMessageInputProps?.Input || ContextInput || MessageInputSmall;
@@ -225,34 +229,40 @@ const ThreadInner = <
   const threadClass = customClasses?.thread || 'str-chat__thread';
 
   return (
-    <div className={`${threadClass} ${fullWidth ? 'str-chat__thread--full' : ''}`}>
-      <ThreadHeader closeThread={closeThread} thread={thread} />
-      <div className='str-chat__thread-list' ref={messageList}>
-        <Message
-          initialMessage
-          message={thread}
-          Message={ThreadMessage || FallbackMessage}
-          threadList
-          {...additionalParentMessageProps}
+    <div
+      className={`${threadClass} ${fullWidth ? 'str-chat__thread--full' : ''}`}
+      ref={containerRef}
+      style={{ position: 'relative' }}
+    >
+      <FocusRingScope containerRef={containerRef}>
+        <ThreadHeader closeThread={closeThread} thread={thread} />
+        <div className='str-chat__thread-list' ref={messageList}>
+          <Message
+            initialMessage
+            message={thread}
+            Message={ThreadMessage || FallbackMessage}
+            threadList
+            {...additionalParentMessageProps}
+          />
+          <ThreadStart />
+          <ThreadMessageList
+            hasMore={threadHasMore}
+            loadingMore={threadLoadingMore}
+            loadMore={loadMoreThread}
+            Message={ThreadMessage || FallbackMessage}
+            messages={threadMessages || []}
+            threadList
+            {...(virtualized ? additionalVirtualizedMessageListProps : additionalMessageListProps)}
+          />
+        </div>
+        <MessageInput
+          focus={autoFocus}
+          Input={ThreadInput}
+          parent={thread}
+          publishTypingEvent={false}
+          {...additionalMessageInputProps}
         />
-        <ThreadStart />
-        <ThreadMessageList
-          hasMore={threadHasMore}
-          loadingMore={threadLoadingMore}
-          loadMore={loadMoreThread}
-          Message={ThreadMessage || FallbackMessage}
-          messages={threadMessages || []}
-          threadList
-          {...(virtualized ? additionalVirtualizedMessageListProps : additionalMessageListProps)}
-        />
-      </div>
-      <MessageInput
-        focus={autoFocus}
-        Input={ThreadInput}
-        parent={thread}
-        publishTypingEvent={false}
-        {...additionalMessageInputProps}
-      />
+      </FocusRingScope>
     </div>
   );
 };
