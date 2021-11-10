@@ -61,6 +61,7 @@ const UnMemoizedChannelPreviewMessenger = <
       <FocusRingScope containerRef={containerRef}>
         <FocusRing offset={-2}>
           <button
+            aria-label={'Select Channel'}
             className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
             data-testid='channel-preview-button'
             onClick={onSelectChannel}

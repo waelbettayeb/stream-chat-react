@@ -191,7 +191,9 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
         <FocusRingScope containerRef={containerRef}>
           <FocusRing offset={-2}>
             <a
+              aria-label={'Open Message Actions Selector'}
               onKeyPress={onClickOptionsAction}
+              role={'button'}
               style={{ outline: 'none' }}
               tabIndex={0}
               {...wrapperProps}
@@ -208,7 +210,9 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
       <FocusRingScope containerRef={containerRef}>
         <FocusRing offset={-2}>
           <a
+            aria-label={'Open Message Actions Selector'}
             onKeyPress={onClickOptionsAction}
+            role={'button'}
             style={{ outline: 'none' }}
             tabIndex={0}
             {...wrapperProps}

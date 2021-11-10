@@ -76,6 +76,7 @@ export const SearchInput = <
   return (
     <FocusRing>
       <input
+        aria-label={'Channel Search'}
         className='str-chat__channel-search-input'
         onChange={(event: React.BaseSyntheticEvent) =>
           searchFunction ? searchFunction(channelSearchParams, event) : onSearch(event)

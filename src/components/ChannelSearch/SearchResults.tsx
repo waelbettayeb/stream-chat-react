@@ -115,6 +115,7 @@ const DefaultSearchResultItem = <
     return (
       <FocusRing>
         <button
+          aria-label={'Select Channel'}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(result)}
         >

@@ -103,6 +103,7 @@ const UnMemoizedMessageOptions = <
         {shouldShowReplies && (
           <FocusRing offset={-2}>
             <button
+              aria-label={'Open Thread'}
               className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
               data-testid='thread-action'
               onClick={handleOpenThread}
@@ -114,6 +115,7 @@ const UnMemoizedMessageOptions = <
         {shouldShowReactions && (
           <FocusRing offset={-2}>
             <button
+              aria-label={'Open Reaction Selector'}
               className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
               data-testid='message-reaction-action'
               onClick={onReactionListClick}
@@ -131,6 +133,7 @@ const UnMemoizedMessageOptions = <
       {shouldShowReactions && (
         <FocusRing offset={-2}>
           <button
+            aria-label={'Open Reaction Selector'}
             className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
             data-testid='message-reaction-action'
             onClick={onReactionListClick}
@@ -142,6 +145,7 @@ const UnMemoizedMessageOptions = <
       {shouldShowReplies && (
         <FocusRing offset={-2}>
           <button
+            aria-label={'Open Thread'}
             className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
             data-testid='thread-action'
             onClick={handleOpenThread}
