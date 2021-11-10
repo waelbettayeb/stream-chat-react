@@ -136,6 +136,7 @@ export const MessageActions = <
 
   return (
     <MessageActionsWrapper
+      actionsBoxOpen={actionsBoxOpen}
       customWrapperClass={customWrapperClass}
       inline={inline}
       setActionsBoxOpen={setActionsBoxOpen}
@@ -157,13 +158,14 @@ export const MessageActions = <
 };
 
 export type MessageActionsWrapperProps = {
+  actionsBoxOpen: boolean;
   setActionsBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
   customWrapperClass?: string;
   inline?: boolean;
 };
 
 const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
-  const { children, customWrapperClass, inline, setActionsBoxOpen } = props;
+  const { actionsBoxOpen, children, customWrapperClass, inline, setActionsBoxOpen } = props;
 
   const defaultWrapperClass =
     'str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options';
@@ -172,7 +174,7 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
 
   const onClickOptionsAction = (event: React.BaseSyntheticEvent) => {
     event.stopPropagation();
-    setActionsBoxOpen(true);
+    setActionsBoxOpen(!actionsBoxOpen);
   };
 
   const wrapperProps = {
@@ -183,13 +185,36 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  if (inline) return <span {...wrapperProps}>{children}</span>;
+  if (inline)
+    return (
+      <div ref={containerRef} style={{ position: 'relative' }}>
+        <FocusRingScope containerRef={containerRef}>
+          <FocusRing offset={-2}>
+            <a
+              onKeyPress={onClickOptionsAction}
+              style={{ outline: 'none' }}
+              tabIndex={0}
+              {...wrapperProps}
+            >
+              {children}
+            </a>
+          </FocusRing>
+        </FocusRingScope>
+      </div>
+    );
 
   return (
     <div ref={containerRef} style={{ position: 'relative' }}>
       <FocusRingScope containerRef={containerRef}>
         <FocusRing offset={-2}>
-          <button {...wrapperProps}>{children}</button>
+          <a
+            onKeyPress={onClickOptionsAction}
+            style={{ outline: 'none' }}
+            tabIndex={0}
+            {...wrapperProps}
+          >
+            {children}
+          </a>
         </FocusRing>
       </FocusRingScope>
     </div>
