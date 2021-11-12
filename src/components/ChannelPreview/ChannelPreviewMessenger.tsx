@@ -62,7 +62,7 @@ const UnMemoizedChannelPreviewMessenger = <
   return (
     <FocusRing offset={-2}>
       <button
-        aria-label={t('Select Channel')}
+        aria-label={t(`Select Channel: ${displayTitle}, ${latestMessage}`)}
         className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
         data-testid='channel-preview-button'
         onClick={onSelectChannel}
