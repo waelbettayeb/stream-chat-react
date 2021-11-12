@@ -5,6 +5,7 @@ import { getStrippedEmojiData, ReactionEmoji } from '../Channel/emojiData';
 
 import { useEmojiContext } from '../../context/EmojiContext';
 import { useMessageContext } from '../../context/MessageContext';
+import { useTranslationContext } from '../../context/TranslationContext';
 
 import type { NimbleEmojiProps } from 'emoji-mart';
 import type { ReactionResponse } from 'stream-chat';
@@ -63,6 +64,8 @@ const UnMemoizedReactionsList = <
   const { message, onReactionListClick } = useMessageContext<At, Ch, Co, Ev, Me, Re, Us>(
     'ReactionsList',
   );
+
+  const { t } = useTranslationContext('ReactionsList');
 
   const { defaultMinimalEmojis, emojiData: fullEmojiData, emojiSetDef } = emojiConfig || {};
 
@@ -123,7 +126,7 @@ const UnMemoizedReactionsList = <
 
           return emojiObject ? (
             <FocusRing key={emojiObject.id} offset={{ left: -4 }}>
-              <button aria-label={`Reactions: ${reactionType}`}>
+              <button aria-label={t(`Reactions: ${reactionType}`)}>
                 {
                   <Suspense fallback={null}>
                     <Emoji
