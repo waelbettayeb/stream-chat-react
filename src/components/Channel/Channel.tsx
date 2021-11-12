@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { FocusRingScope } from 'react-focus-rings';
 
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
@@ -317,6 +318,7 @@ const ChannelInner = <
   const originalTitle = useRef('');
   const lastRead = useRef(new Date());
   const online = useRef(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const channelCapabilitiesArray = channel.data?.own_capabilities as string[];
 
@@ -856,18 +858,23 @@ const ChannelInner = <
   }
 
   return (
-    <div className={`${chatClass} ${channelClass} ${theme} ${windowsEmojiClass}`}>
-      <ChannelStateProvider value={channelStateContextValue}>
-        <ChannelActionProvider value={channelActionContextValue}>
-          <ComponentProvider value={componentContextValue}>
-            <EmojiProvider value={emojiContextValue}>
-              <TypingProvider value={typingContextValue}>
-                <div className={`${chatContainerClass}`}>{children}</div>
-              </TypingProvider>
-            </EmojiProvider>
-          </ComponentProvider>
-        </ChannelActionProvider>
-      </ChannelStateProvider>
+    <div
+      className={`${chatClass} ${channelClass} ${theme} ${windowsEmojiClass}`}
+      ref={containerRef}
+    >
+      <FocusRingScope containerRef={containerRef}>
+        <ChannelStateProvider value={channelStateContextValue}>
+          <ChannelActionProvider value={channelActionContextValue}>
+            <ComponentProvider value={componentContextValue}>
+              <EmojiProvider value={emojiContextValue}>
+                <TypingProvider value={typingContextValue}>
+                  <div className={`${chatContainerClass}`}>{children}</div>
+                </TypingProvider>
+              </EmojiProvider>
+            </ComponentProvider>
+          </ChannelActionProvider>
+        </ChannelStateProvider>
+      </FocusRingScope>
     </div>
   );
 };

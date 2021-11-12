@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FocusRing, FocusRingScope } from 'react-focus-rings';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { ChannelOrUserResponse, isChannel } from './utils';
 
@@ -46,25 +46,21 @@ const DefaultDropdownContainer = <
 ) => {
   const { focusedUser, results, SearchResultItem = DefaultSearchResultItem, selectResult } = props;
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={containerRef} style={{ position: 'relative' }}>
-      <FocusRingScope containerRef={containerRef}>
-        {results.map((result, index) => (
-          <div key={index}>
-            <FocusRing>
-              <SearchResultItem
-                focusedUser={focusedUser}
-                index={index}
-                key={index}
-                result={result}
-                selectResult={selectResult}
-              />
-            </FocusRing>
-          </div>
-        ))}
-      </FocusRingScope>
+    <div>
+      {results.map((result, index) => (
+        <div key={index}>
+          <FocusRing>
+            <SearchResultItem
+              focusedUser={focusedUser}
+              index={index}
+              key={index}
+              result={result}
+              selectResult={selectResult}
+            />
+          </FocusRing>
+        </div>
+      ))}
     </div>
   );
 };
@@ -99,23 +95,28 @@ const DefaultSearchResultItem = <
 
   const focused = focusedUser === index;
 
+  const { t } = useTranslationContext('SearchResults');
+
   if (isChannel(result)) {
     const channel = result;
 
     return (
-      <button
-        className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
-        onClick={() => selectResult(channel)}
-      >
-        <div className='result-hashtag'>#</div>
-        <p className='channel-search__result-text'>{channel.data?.name}</p>
-      </button>
+      <FocusRing>
+        <button
+          aria-label={t('Select Channel')}
+          className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
+          onClick={() => selectResult(channel)}
+        >
+          <div className='result-hashtag'>#</div>
+          <p className='channel-search__result-text'>{channel.data?.name}</p>
+        </button>
+      </FocusRing>
     );
   } else {
     return (
       <FocusRing>
         <button
-          aria-label={'Select Channel'}
+          aria-label={t('Select Channel')}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(result)}
         >

@@ -10,7 +10,6 @@ import {
   Thread,
   Window,
 } from 'stream-chat-react';
-
 import 'stream-chat-css/dist/css/index.css';
 import './App.css';
 

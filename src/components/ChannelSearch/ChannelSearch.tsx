@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FocusRing, FocusRingScope } from 'react-focus-rings';
 import throttle from 'lodash.throttle';
 
 import {
@@ -125,7 +124,6 @@ const UnMemoizedChannelSearch = <
   const [searching, setSearching] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const clearState = () => {
     setQuery('');
@@ -226,18 +224,14 @@ const UnMemoizedChannelSearch = <
   };
 
   return (
-    <div className='str-chat__channel-search' ref={containerRef} style={{ position: 'relative' }}>
-      <FocusRingScope containerRef={containerRef}>
-        <FocusRing>
-          <SearchInput
-            channelSearchParams={channelSearchParams}
-            inputRef={inputRef}
-            onSearch={onSearch}
-            query={query}
-            searchFunction={searchFunction}
-          />
-        </FocusRing>
-      </FocusRingScope>
+    <div className='str-chat__channel-search'>
+      <SearchInput
+        channelSearchParams={channelSearchParams}
+        inputRef={inputRef}
+        onSearch={onSearch}
+        query={query}
+        searchFunction={searchFunction}
+      />
       {query && (
         <SearchResults
           DropdownContainer={DropdownContainer}

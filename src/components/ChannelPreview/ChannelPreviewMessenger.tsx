@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
-import { FocusRing, FocusRingScope } from 'react-focus-rings';
+import { FocusRing } from 'react-focus-rings';
 
 import { Avatar as DefaultAvatar } from '../Avatar';
+
+import { useTranslationContext } from '../../context/TranslationContext';
 
 import type { ChannelPreviewUIComponentProps } from './ChannelPreview';
 
@@ -39,13 +41,14 @@ const UnMemoizedChannelPreviewMessenger = <
   } = props;
 
   const channelPreviewButton = useRef<HTMLButtonElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const activeClass = active ? 'str-chat__channel-preview-messenger--active' : '';
   const unreadClass = unread && unread >= 1 ? 'str-chat__channel-preview-messenger--unread' : '';
 
   const avatarName =
     displayTitle || channel.state.messages[channel.state.messages.length - 1]?.user?.id;
+
+  const { t } = useTranslationContext('ChannelPreviewMessenger');
 
   const onSelectChannel = () => {
     if (setActiveChannel) {
@@ -57,31 +60,25 @@ const UnMemoizedChannelPreviewMessenger = <
   };
 
   return (
-    <div ref={containerRef} style={{ position: 'relative' }}>
-      <FocusRingScope containerRef={containerRef}>
-        <FocusRing offset={-2}>
-          <button
-            aria-label={'Select Channel'}
-            className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
-            data-testid='channel-preview-button'
-            onClick={onSelectChannel}
-            ref={channelPreviewButton}
-          >
-            <div className='str-chat__channel-preview-messenger--left'>
-              <Avatar image={displayImage} name={avatarName} size={40} />
-            </div>
-            <div className='str-chat__channel-preview-messenger--right'>
-              <div className='str-chat__channel-preview-messenger--name'>
-                <span>{displayTitle}</span>
-              </div>
-              <div className='str-chat__channel-preview-messenger--last-message'>
-                {latestMessage}
-              </div>
-            </div>
-          </button>
-        </FocusRing>
-      </FocusRingScope>
-    </div>
+    <FocusRing offset={-2}>
+      <button
+        aria-label={t('Select Channel')}
+        className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
+        data-testid='channel-preview-button'
+        onClick={onSelectChannel}
+        ref={channelPreviewButton}
+      >
+        <div className='str-chat__channel-preview-messenger--left'>
+          <Avatar image={displayImage} name={avatarName} size={40} />
+        </div>
+        <div className='str-chat__channel-preview-messenger--right'>
+          <div className='str-chat__channel-preview-messenger--name'>
+            <span>{displayTitle}</span>
+          </div>
+          <div className='str-chat__channel-preview-messenger--last-message'>{latestMessage}</div>
+        </div>
+      </button>
+    </FocusRing>
   );
 };
 

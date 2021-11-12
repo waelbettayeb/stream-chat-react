@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FocusRing, FocusRingScope } from 'react-focus-rings';
+import { FocusRing } from 'react-focus-rings';
 
 import { FixedHeightMessage } from '../Message/FixedHeightMessage';
 import { Message } from '../Message/Message';
@@ -234,35 +234,33 @@ const ThreadInner = <
       ref={containerRef}
       style={{ position: 'relative' }}
     >
-      <FocusRingScope containerRef={containerRef}>
-        <ThreadHeader closeThread={closeThread} thread={thread} />
-        <div className='str-chat__thread-list' ref={messageList}>
-          <Message
-            initialMessage
-            message={thread}
-            Message={ThreadMessage || FallbackMessage}
-            threadList
-            {...additionalParentMessageProps}
-          />
-          <ThreadStart />
-          <ThreadMessageList
-            hasMore={threadHasMore}
-            loadingMore={threadLoadingMore}
-            loadMore={loadMoreThread}
-            Message={ThreadMessage || FallbackMessage}
-            messages={threadMessages || []}
-            threadList
-            {...(virtualized ? additionalVirtualizedMessageListProps : additionalMessageListProps)}
-          />
-        </div>
-        <MessageInput
-          focus={autoFocus}
-          Input={ThreadInput}
-          parent={thread}
-          publishTypingEvent={false}
-          {...additionalMessageInputProps}
+      <ThreadHeader closeThread={closeThread} thread={thread} />
+      <div className='str-chat__thread-list' ref={messageList}>
+        <Message
+          initialMessage
+          message={thread}
+          Message={ThreadMessage || FallbackMessage}
+          threadList
+          {...additionalParentMessageProps}
         />
-      </FocusRingScope>
+        <ThreadStart />
+        <ThreadMessageList
+          hasMore={threadHasMore}
+          loadingMore={threadLoadingMore}
+          loadMore={loadMoreThread}
+          Message={ThreadMessage || FallbackMessage}
+          messages={threadMessages || []}
+          threadList
+          {...(virtualized ? additionalVirtualizedMessageListProps : additionalMessageListProps)}
+        />
+      </div>
+      <MessageInput
+        focus={autoFocus}
+        Input={ThreadInput}
+        parent={thread}
+        publishTypingEvent={false}
+        {...additionalMessageInputProps}
+      />
     </div>
   );
 };

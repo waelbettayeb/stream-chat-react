@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { FocusRingScope } from 'react-focus-rings';
 
 import { ChannelListMessenger, ChannelListMessengerProps } from './ChannelListMessenger';
 import { useChannelDeletedListener } from './hooks/useChannelDeletedListener';
@@ -326,28 +327,31 @@ const UnMemoizedChannelList = <
       <div
         className={`${chatClass} ${channelListClass} ${theme} ${navigationClass} ${windowsEmojiClass}`}
         ref={channelListRef}
+        style={{ position: 'relative' }}
       >
-        {showChannelSearch && <ChannelSearch {...additionalChannelSearchProps} />}
-        <List
-          error={status.error}
-          loadedChannels={sendChannelsToList ? loadedChannels : undefined}
-          loading={status.loadingChannels}
-          LoadingErrorIndicator={LoadingErrorIndicator}
-          LoadingIndicator={LoadingIndicator}
-          setChannels={setChannels}
-        >
-          {!loadedChannels?.length ? (
-            <EmptyStateIndicator listType='channel' />
-          ) : (
-            <Paginator
-              hasNextPage={hasNextPage}
-              loadNextPage={loadNextPage}
-              refreshing={status.refreshing}
-            >
-              {loadedChannels.map(renderChannel)}
-            </Paginator>
-          )}
-        </List>
+        <FocusRingScope containerRef={channelListRef}>
+          {showChannelSearch && <ChannelSearch {...additionalChannelSearchProps} />}
+          <List
+            error={status.error}
+            loadedChannels={sendChannelsToList ? loadedChannels : undefined}
+            loading={status.loadingChannels}
+            LoadingErrorIndicator={LoadingErrorIndicator}
+            LoadingIndicator={LoadingIndicator}
+            setChannels={setChannels}
+          >
+            {!loadedChannels?.length ? (
+              <EmptyStateIndicator listType='channel' />
+            ) : (
+              <Paginator
+                hasNextPage={hasNextPage}
+                loadNextPage={loadNextPage}
+                refreshing={status.refreshing}
+              >
+                {loadedChannels.map(renderChannel)}
+              </Paginator>
+            )}
+          </List>
+        </FocusRingScope>
       </div>
     </>
   );

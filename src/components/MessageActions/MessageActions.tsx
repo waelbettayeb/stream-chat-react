@@ -8,6 +8,7 @@ import { isUserMuted } from '../Message/utils';
 
 import { useChatContext } from '../../context/ChatContext';
 import { MessageContextValue, useMessageContext } from '../../context/MessageContext';
+import { useTranslationContext } from '../../context/TranslationContext';
 
 import type {
   DefaultAttachmentType,
@@ -167,6 +168,8 @@ export type MessageActionsWrapperProps = {
 const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
   const { actionsBoxOpen, children, customWrapperClass, inline, setActionsBoxOpen } = props;
 
+  const { t } = useTranslationContext('MessageActions');
+
   const defaultWrapperClass =
     'str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options';
 
@@ -191,7 +194,7 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
         <FocusRingScope containerRef={containerRef}>
           <FocusRing offset={-2}>
             <a
-              aria-label={'Open Message Actions Selector'}
+              aria-label={t('Open Message Actions Selector')}
               onKeyPress={onClickOptionsAction}
               role={'button'}
               style={{ outline: 'none' }}
@@ -210,7 +213,7 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
       <FocusRingScope containerRef={containerRef}>
         <FocusRing offset={-2}>
           <a
-            aria-label={'Open Message Actions Selector'}
+            aria-label={t('Open Message Actions Selector')}
             onKeyPress={onClickOptionsAction}
             role={'button'}
             style={{ outline: 'none' }}
