@@ -123,7 +123,7 @@ const UnMemoizedReactionsList = <
 
           return emojiObject ? (
             <FocusRing key={emojiObject.id} offset={{ left: -4 }}>
-              <button>
+              <button aria-label={`Reactions: ${reactionType}`}>
                 {
                   <Suspense fallback={null}>
                     <Emoji
