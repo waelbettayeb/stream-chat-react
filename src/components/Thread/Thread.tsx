@@ -129,7 +129,7 @@ const DefaultThreadHeader = <
       </div>
       <FocusRing>
         <button
-          aria-label={t('Close Thread')}
+          aria-label={'Close Thread'}
           className='str-chat__square-button'
           data-testid='close-button'
           onClick={(event) => closeThread(event)}

@@ -11,7 +11,6 @@ import { MESSAGE_ACTIONS, showMessageActionsBox } from './utils';
 import { MessageActions } from '../MessageActions';
 
 import { MessageContextValue, useMessageContext } from '../../context/MessageContext';
-import { useTranslationContext } from '../../context/TranslationContext';
 
 import type {
   DefaultAttachmentType,
@@ -76,8 +75,6 @@ const UnMemoizedMessageOptions = <
 
   const handleOpenThread = propHandleOpenThread || contextHandleOpenThread;
 
-  const { t } = useTranslationContext('MessageOptions');
-
   const messageActions = getMessageActions();
   const showActionsBox = showMessageActionsBox(messageActions) || !!customMessageActions;
 
@@ -106,7 +103,7 @@ const UnMemoizedMessageOptions = <
         {shouldShowReplies && (
           <FocusRing offset={-2}>
             <button
-              aria-label={t('Open Thread')}
+              aria-label={'Open Thread'}
               className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
               data-testid='thread-action'
               onClick={handleOpenThread}
@@ -118,7 +115,7 @@ const UnMemoizedMessageOptions = <
         {shouldShowReactions && (
           <FocusRing offset={-2}>
             <button
-              aria-label={t('Open Reaction Selector')}
+              aria-label={'Open Reaction Selector'}
               className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
               data-testid='message-reaction-action'
               onClick={onReactionListClick}
@@ -136,7 +133,7 @@ const UnMemoizedMessageOptions = <
       {shouldShowReactions && (
         <FocusRing offset={-2}>
           <button
-            aria-label={t('Open Reaction Selector')}
+            aria-label={'Open Reaction Selector'}
             className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--reactions`}
             data-testid='message-reaction-action'
             onClick={onReactionListClick}
@@ -148,7 +145,7 @@ const UnMemoizedMessageOptions = <
       {shouldShowReplies && (
         <FocusRing offset={-2}>
           <button
-            aria-label={t('Open Thread')}
+            aria-label={'Open Thread'}
             className={`str-chat__message-${theme}__actions__action str-chat__message-${theme}__actions__action--thread`}
             data-testid='thread-action'
             onClick={handleOpenThread}

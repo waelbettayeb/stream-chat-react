@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FocusRing, FocusRingScope } from 'react-focus-rings';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { MessageActionsBox } from './MessageActionsBox';
 
@@ -8,7 +8,6 @@ import { isUserMuted } from '../Message/utils';
 
 import { useChatContext } from '../../context/ChatContext';
 import { MessageContextValue, useMessageContext } from '../../context/MessageContext';
-import { useTranslationContext } from '../../context/TranslationContext';
 
 import type {
   DefaultAttachmentType,
@@ -168,8 +167,6 @@ export type MessageActionsWrapperProps = {
 const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
   const { actionsBoxOpen, children, customWrapperClass, inline, setActionsBoxOpen } = props;
 
-  const { t } = useTranslationContext('MessageActions');
-
   const defaultWrapperClass =
     'str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options';
 
@@ -186,44 +183,34 @@ const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
     onClick: onClickOptionsAction,
   };
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
   if (inline)
     return (
-      <div ref={containerRef} style={{ position: 'relative' }}>
-        <FocusRingScope containerRef={containerRef}>
-          <FocusRing offset={-2}>
-            <a
-              aria-label={t('Open Message Actions Selector')}
-              onKeyPress={onClickOptionsAction}
-              role={'button'}
-              style={{ outline: 'none' }}
-              tabIndex={0}
-              {...wrapperProps}
-            >
-              {children}
-            </a>
-          </FocusRing>
-        </FocusRingScope>
-      </div>
+      <FocusRing offset={-2}>
+        <a
+          aria-label={'Open Message Actions Selector'}
+          onKeyPress={onClickOptionsAction}
+          role={'button'}
+          style={{ outline: 'none' }}
+          tabIndex={0}
+          {...wrapperProps}
+        >
+          {children}
+        </a>
+      </FocusRing>
     );
 
   return (
-    <div ref={containerRef} style={{ position: 'relative' }}>
-      <FocusRingScope containerRef={containerRef}>
-        <FocusRing offset={-2}>
-          <a
-            aria-label={t('Open Message Actions Selector')}
-            onKeyPress={onClickOptionsAction}
-            role={'button'}
-            style={{ outline: 'none' }}
-            tabIndex={0}
-            {...wrapperProps}
-          >
-            {children}
-          </a>
-        </FocusRing>
-      </FocusRingScope>
-    </div>
+    <FocusRing offset={-2}>
+      <a
+        aria-label={'Open Message Actions Selector'}
+        onKeyPress={onClickOptionsAction}
+        role={'button'}
+        style={{ outline: 'none' }}
+        tabIndex={0}
+        {...wrapperProps}
+      >
+        {children}
+      </a>
+    </FocusRing>
   );
 };

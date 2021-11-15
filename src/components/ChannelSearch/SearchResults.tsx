@@ -6,8 +6,6 @@ import { ChannelOrUserResponse, isChannel } from './utils';
 import { Avatar } from '../Avatar/Avatar';
 import { useBreakpoint } from '../Message/hooks/useBreakpoint';
 
-import { useTranslationContext } from '../../context/TranslationContext';
-
 import type {
   DefaultAttachmentType,
   DefaultChannelType,
@@ -95,15 +93,13 @@ const DefaultSearchResultItem = <
 
   const focused = focusedUser === index;
 
-  const { t } = useTranslationContext('SearchResults');
-
   if (isChannel(result)) {
     const channel = result;
 
     return (
       <FocusRing>
         <button
-          aria-label={t('Select Channel')}
+          aria-label={'Select Channel'}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(channel)}
         >
@@ -116,7 +112,7 @@ const DefaultSearchResultItem = <
     return (
       <FocusRing>
         <button
-          aria-label={t('Select Channel')}
+          aria-label={'Select Channel'}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(result)}
         >
@@ -170,8 +166,6 @@ export const SearchResults = <
     SearchResultItem = DefaultSearchResultItem,
     selectResult,
   } = props;
-
-  const { t } = useTranslationContext('SearchResults');
 
   const [focusedUser, setFocusedUser] = useState<number>();
 

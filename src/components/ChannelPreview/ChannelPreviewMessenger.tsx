@@ -3,8 +3,6 @@ import { FocusRing } from 'react-focus-rings';
 
 import { Avatar as DefaultAvatar } from '../Avatar';
 
-import { useTranslationContext } from '../../context/TranslationContext';
-
 import type { ChannelPreviewUIComponentProps } from './ChannelPreview';
 
 import type {
@@ -48,8 +46,6 @@ const UnMemoizedChannelPreviewMessenger = <
   const avatarName =
     displayTitle || channel.state.messages[channel.state.messages.length - 1]?.user?.id;
 
-  const { t } = useTranslationContext('ChannelPreviewMessenger');
-
   const onSelectChannel = () => {
     if (setActiveChannel) {
       setActiveChannel(channel, watchers);
@@ -62,7 +58,7 @@ const UnMemoizedChannelPreviewMessenger = <
   return (
     <FocusRing offset={-2}>
       <button
-        aria-label={t(`Select Channel: ${displayTitle}, ${latestMessage}`)}
+        aria-label={`Select Channel: ${displayTitle}, ${latestMessage}`}
         className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
         data-testid='channel-preview-button'
         onClick={onSelectChannel}

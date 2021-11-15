@@ -9,7 +9,6 @@ import { getStrippedEmojiData, ReactionEmoji } from '../Channel/emojiData';
 import { useComponentContext } from '../../context/ComponentContext';
 import { useEmojiContext } from '../../context/EmojiContext';
 import { useMessageContext } from '../../context/MessageContext';
-import { useTranslationContext } from '../../context/TranslationContext';
 
 import type { NimbleEmojiProps } from 'emoji-mart';
 import type { ReactionResponse } from 'stream-chat';
@@ -83,8 +82,6 @@ const UnMemoizedReactionSelector = React.forwardRef(
       Re,
       Us
     >('ReactionSelector');
-
-    const { t } = useTranslationContext('ReactionSelector');
 
     const { defaultMinimalEmojis, emojiData: fullEmojiData, emojiSetDef } = emojiConfig || {};
 
@@ -189,7 +186,7 @@ const UnMemoizedReactionSelector = React.forwardRef(
             return (
               <FocusRing key={`item-${reactionOption.id}`}>
                 <button
-                  aria-label={t(`Select Reaction: ${reactionOption.name}`)}
+                  aria-label={`Select Reaction: ${reactionOption.name}`}
                   className='str-chat__message-reactions-list-item'
                   data-text={reactionOption.id}
                   onClick={(event) => handleReaction(reactionOption.id, event)}
