@@ -134,13 +134,43 @@ export const MessageActions = <
 
   if (!messageActions.length && !customMessageActions) return null;
 
+  const defaultWrapperClass =
+    'str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options';
+
+  const wrapperClass = customWrapperClass || defaultWrapperClass;
+
+  const onClickOptionsAction = (event: React.BaseSyntheticEvent) => {
+    event.stopPropagation();
+    setActionsBoxOpen(!actionsBoxOpen);
+  };
+
   return (
-    <MessageActionsWrapper
-      actionsBoxOpen={actionsBoxOpen}
-      customWrapperClass={customWrapperClass}
-      inline={inline}
-      setActionsBoxOpen={setActionsBoxOpen}
-    >
+    <>
+      <FocusRing offset={-2}>
+        {inline ? (
+          <span
+            aria-label={'Open Message Actions Selector'}
+            className={wrapperClass}
+            data-testid={'message-actions'}
+            onClick={onClickOptionsAction}
+            onKeyPress={onClickOptionsAction}
+            role='button'
+            style={{ outline: 'none' }}
+            tabIndex={0}
+          >
+            <ActionsIcon />
+          </span>
+        ) : (
+          <button
+            aria-label={'Open Message Actions Selector'}
+            className={wrapperClass}
+            data-testid={'message-actions'}
+            onClick={onClickOptionsAction}
+          >
+            <ActionsIcon />
+          </button>
+        )}
+      </FocusRing>
       <MessageActionsBox
         getMessageActions={getMessageActions}
         handleDelete={handleDelete}
@@ -152,65 +182,6 @@ export const MessageActions = <
         mine={mine ? mine() : isMyMessage()}
         open={actionsBoxOpen}
       />
-      <ActionsIcon />
-    </MessageActionsWrapper>
-  );
-};
-
-export type MessageActionsWrapperProps = {
-  actionsBoxOpen: boolean;
-  setActionsBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  customWrapperClass?: string;
-  inline?: boolean;
-};
-
-const MessageActionsWrapper: React.FC<MessageActionsWrapperProps> = (props) => {
-  const { actionsBoxOpen, children, customWrapperClass, inline, setActionsBoxOpen } = props;
-
-  const defaultWrapperClass =
-    'str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options';
-
-  const wrapperClass = customWrapperClass || defaultWrapperClass;
-
-  const onClickOptionsAction = (event: React.BaseSyntheticEvent) => {
-    event.stopPropagation();
-    setActionsBoxOpen(!actionsBoxOpen);
-  };
-
-  const wrapperProps = {
-    className: wrapperClass,
-    'data-testid': 'message-actions',
-    onClick: onClickOptionsAction,
-  };
-
-  if (inline)
-    return (
-      <FocusRing offset={-2}>
-        <a
-          aria-label={'Open Message Actions Selector'}
-          onKeyPress={onClickOptionsAction}
-          role={'button'}
-          style={{ outline: 'none' }}
-          tabIndex={0}
-          {...wrapperProps}
-        >
-          {children}
-        </a>
-      </FocusRing>
-    );
-
-  return (
-    <FocusRing offset={-2}>
-      <a
-        aria-label={'Open Message Actions Selector'}
-        onKeyPress={onClickOptionsAction}
-        role={'button'}
-        style={{ outline: 'none' }}
-        tabIndex={0}
-        {...wrapperProps}
-      >
-        {children}
-      </a>
-    </FocusRing>
+    </>
   );
 };
