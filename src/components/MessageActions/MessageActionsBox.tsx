@@ -57,8 +57,11 @@ const CustomMessageActionsList = <
 
         return (
           <FocusRing key={customAction}>
-            <button onClick={(event) => customHandler(message, event)}>
-              <li className='str-chat__message-actions-list-item'>{customAction}</li>
+            <button
+              className='str-chat__message-actions-list-item'
+              onClick={(event) => customHandler(message, event)}
+            >
+              {customAction}
             </button>
           </FocusRing>
         );
@@ -129,7 +132,7 @@ const UnMemoizedMessageActionsBox = <
 
   const [reverse, setReverse] = useState(false);
 
-  const containerRef = useRef<HTMLUListElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const messageActions = getMessageActions();
 
@@ -174,7 +177,7 @@ const UnMemoizedMessageActionsBox = <
       data-testid='message-actions-box'
       ref={checkIfReverse}
     >
-      <ul className='str-chat__message-actions-list' ref={containerRef}>
+      <div className='str-chat__message-actions-list' ref={containerRef}>
         <FocusRingScope containerRef={containerRef}>
           {customMessageActions && (
             <CustomMessageActionsList
@@ -186,58 +189,54 @@ const UnMemoizedMessageActionsBox = <
             !message.parent_id &&
             !message.quoted_message && (
               <FocusRing>
-                <button onClick={handleQuote}>
-                  <li className='str-chat__message-actions-list-item'>{t('Reply')}</li>
+                <button className='str-chat__message-actions-list-item' onClick={handleQuote}>
+                  {t('Reply')}
                 </button>
               </FocusRing>
             )}
           {messageActions.indexOf(MESSAGE_ACTIONS.pin) > -1 && !message.parent_id && (
             <FocusRing>
-              <button onClick={handlePin}>
-                <li className='str-chat__message-actions-list-item'>
-                  {!message.pinned ? t('Pin') : t('Unpin')}
-                </li>
+              <button className='str-chat__message-actions-list-item' onClick={handlePin}>
+                {!message.pinned ? t('Pin') : t('Unpin')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.flag) > -1 && (
             <FocusRing>
-              <button onClick={handleFlag}>
-                <li className='str-chat__message-actions-list-item'>{t('Flag')}</li>
+              <button className='str-chat__message-actions-list-item' onClick={handleFlag}>
+                {t('Flag')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.mute) > -1 && (
             <FocusRing>
-              <button onClick={handleMute}>
-                <li className='str-chat__message-actions-list-item'>
-                  {isUserMuted() ? t('Unmute') : t('Mute')}
-                </li>
+              <button className='str-chat__message-actions-list-item' onClick={handleMute}>
+                {isUserMuted() ? t('Unmute') : t('Mute')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.edit) > -1 && (
             <FocusRing>
-              <button onClick={handleEdit}>
-                <li className='str-chat__message-actions-list-item'>{t('Edit Message')}</li>
+              <button className='str-chat__message-actions-list-item' onClick={handleEdit}>
+                {t('Edit Message')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.delete) > -1 && (
             <FocusRing>
-              <button onClick={handleDelete}>
-                <li className='str-chat__message-actions-list-item'>{t('Delete')}</li>
+              <button className='str-chat__message-actions-list-item' onClick={handleDelete}>
+                {t('Delete')}
               </button>
             </FocusRing>
           )}
         </FocusRingScope>
-      </ul>
+      </div>
     </div>
   );
 };
 
 /**
- * A popup box that displays the available actions on a message, such edit, delete, pin, etc.
+ * A popup box that displays the available actions on a message, such as edit, delete, pin, etc.
  */
 export const MessageActionsBox = React.memo(
   UnMemoizedMessageActionsBox,

@@ -5,6 +5,7 @@ import { ChannelOrUserResponse, isChannel } from './utils';
 
 import { Avatar } from '../Avatar/Avatar';
 import { useBreakpoint } from '../Message/hooks/useBreakpoint';
+import { useTranslationContext } from '../../context/TranslationContext';
 
 import type {
   DefaultAttachmentType,
@@ -168,6 +169,8 @@ export const SearchResults = <
   } = props;
 
   const [focusedUser, setFocusedUser] = useState<number>();
+
+  const { t } = useTranslationContext('SearchResults');
 
   const { device } = useBreakpoint();
 
