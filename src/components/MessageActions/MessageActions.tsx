@@ -38,7 +38,6 @@ export type MessageActionsProps<
 > = Partial<Pick<MessageContextValue<At, Ch, Co, Ev, Me, Re, Us>, MessageContextPropsToPick>> & {
   ActionsIcon?: React.FunctionComponent;
   customWrapperClass?: string;
-  inline?: boolean;
   messageWrapperRef?: React.RefObject<HTMLDivElement>;
   mine?: () => boolean;
 };
@@ -62,7 +61,6 @@ export const MessageActions = <
     handleFlag: propHandleFlag,
     handleMute: propHandleMute,
     handlePin: propHandlePin,
-    inline,
     message: propMessage,
     messageWrapperRef,
     mine,
@@ -147,29 +145,14 @@ export const MessageActions = <
   return (
     <>
       <FocusRing offset={-2}>
-        {inline ? (
-          <span
-            aria-label={'Open Message Actions Selector'}
-            className={wrapperClass}
-            data-testid={'message-actions'}
-            onClick={onClickOptionsAction}
-            onKeyPress={onClickOptionsAction}
-            role='button'
-            style={{ outline: 'none' }}
-            tabIndex={0}
-          >
-            <ActionsIcon />
-          </span>
-        ) : (
-          <button
-            aria-label={'Open Message Actions Selector'}
-            className={wrapperClass}
-            data-testid={'message-actions'}
-            onClick={onClickOptionsAction}
-          >
-            <ActionsIcon />
-          </button>
-        )}
+        <button
+          aria-label={'Open Message Actions Selector'}
+          className={wrapperClass}
+          data-testid={'message-actions'}
+          onClick={onClickOptionsAction}
+        >
+          <ActionsIcon />
+        </button>
       </FocusRing>
       <MessageActionsBox
         getMessageActions={getMessageActions}

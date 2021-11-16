@@ -175,33 +175,4 @@ describe('<MessageActions /> component', () => {
       </div>
     `);
   });
-
-  it('should render with an inline element wrapper when inline set', () => {
-    const tree = renderMessageActions(
-      {
-        inline: true,
-      },
-      testRenderer.create,
-    );
-    expect(tree.toJSON()).toMatchInlineSnapshot(`
-      <span
-        className="str-chat__message-simple__actions__action str-chat__message-simple__actions__action--options"
-        data-testid="message-actions"
-        onClick={[Function]}
-      >
-        <div />
-        <svg
-          height="4"
-          viewBox="0 0 11 4"
-          width="11"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-            fillRule="nonzero"
-          />
-        </svg>
-      </span>
-    `);
-  });
 });
