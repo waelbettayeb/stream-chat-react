@@ -177,6 +177,7 @@ const UnMemoizedMessageActionsBox = <
       `}
       data-testid='message-actions-box'
       ref={checkIfReverse}
+      role='dialog'
     >
       <div className='str-chat__message-actions-list' ref={containerRef} role='listbox'>
         <FocusRingScope containerRef={containerRef}>
