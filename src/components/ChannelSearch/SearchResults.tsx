@@ -46,21 +46,17 @@ const DefaultDropdownContainer = <
   const { focusedUser, results, SearchResultItem = DefaultSearchResultItem, selectResult } = props;
 
   return (
-    <div>
+    <>
       {results.map((result, index) => (
-        <div key={index}>
-          <FocusRing>
-            <SearchResultItem
-              focusedUser={focusedUser}
-              index={index}
-              key={index}
-              result={result}
-              selectResult={selectResult}
-            />
-          </FocusRing>
-        </div>
+        <SearchResultItem
+          focusedUser={focusedUser}
+          index={index}
+          key={index}
+          result={result}
+          selectResult={selectResult}
+        />
       ))}
-    </div>
+    </>
   );
 };
 
@@ -100,7 +96,7 @@ const DefaultSearchResultItem = <
     return (
       <FocusRing>
         <button
-          aria-label={'Select Channel'}
+          aria-label={`Select Channel: ${channel.data?.name || channel.id}`}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(channel)}
         >
@@ -113,7 +109,7 @@ const DefaultSearchResultItem = <
     return (
       <FocusRing>
         <button
-          aria-label={'Select Channel'}
+          aria-label={`Select User Channel: ${result.name || result.id}`}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(result)}
         >
@@ -230,7 +226,7 @@ export const SearchResults = <
         {SearchEmpty ? (
           <SearchEmpty />
         ) : (
-          <div className='str-chat__channel-search-container-empty' tabIndex={0}>
+          <div aria-live='polite' className='str-chat__channel-search-container-empty'>
             {t('No results found')}
           </div>
         )}

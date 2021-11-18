@@ -146,6 +146,8 @@ export const MessageActions = <
     <>
       <FocusRing offset={-2}>
         <button
+          aria-expanded={actionsBoxOpen}
+          aria-haspopup='true'
           aria-label={'Open Message Actions Selector'}
           className={wrapperClass}
           data-testid={'message-actions'}

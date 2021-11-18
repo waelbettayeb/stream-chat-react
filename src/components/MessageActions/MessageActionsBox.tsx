@@ -60,6 +60,7 @@ const CustomMessageActionsList = <
             <button
               className='str-chat__message-actions-list-item'
               onClick={(event) => customHandler(message, event)}
+              role='option'
             >
               {customAction}
             </button>
@@ -177,7 +178,7 @@ const UnMemoizedMessageActionsBox = <
       data-testid='message-actions-box'
       ref={checkIfReverse}
     >
-      <div className='str-chat__message-actions-list' ref={containerRef}>
+      <div className='str-chat__message-actions-list' ref={containerRef} role='listbox'>
         <FocusRingScope containerRef={containerRef}>
           {customMessageActions && (
             <CustomMessageActionsList
@@ -189,42 +190,66 @@ const UnMemoizedMessageActionsBox = <
             !message.parent_id &&
             !message.quoted_message && (
               <FocusRing>
-                <button className='str-chat__message-actions-list-item' onClick={handleQuote}>
+                <button
+                  className='str-chat__message-actions-list-item'
+                  onClick={handleQuote}
+                  role='option'
+                >
                   {t('Reply')}
                 </button>
               </FocusRing>
             )}
           {messageActions.indexOf(MESSAGE_ACTIONS.pin) > -1 && !message.parent_id && (
             <FocusRing>
-              <button className='str-chat__message-actions-list-item' onClick={handlePin}>
+              <button
+                className='str-chat__message-actions-list-item'
+                onClick={handlePin}
+                role='option'
+              >
                 {!message.pinned ? t('Pin') : t('Unpin')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.flag) > -1 && (
             <FocusRing>
-              <button className='str-chat__message-actions-list-item' onClick={handleFlag}>
+              <button
+                className='str-chat__message-actions-list-item'
+                onClick={handleFlag}
+                role='option'
+              >
                 {t('Flag')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.mute) > -1 && (
             <FocusRing>
-              <button className='str-chat__message-actions-list-item' onClick={handleMute}>
+              <button
+                className='str-chat__message-actions-list-item'
+                onClick={handleMute}
+                role='option'
+              >
                 {isUserMuted() ? t('Unmute') : t('Mute')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.edit) > -1 && (
             <FocusRing>
-              <button className='str-chat__message-actions-list-item' onClick={handleEdit}>
+              <button
+                className='str-chat__message-actions-list-item'
+                onClick={handleEdit}
+                role='option'
+              >
                 {t('Edit Message')}
               </button>
             </FocusRing>
           )}
           {messageActions.indexOf(MESSAGE_ACTIONS.delete) > -1 && (
             <FocusRing>
-              <button className='str-chat__message-actions-list-item' onClick={handleDelete}>
+              <button
+                className='str-chat__message-actions-list-item'
+                onClick={handleDelete}
+                role='option'
+              >
                 {t('Delete')}
               </button>
             </FocusRing>
