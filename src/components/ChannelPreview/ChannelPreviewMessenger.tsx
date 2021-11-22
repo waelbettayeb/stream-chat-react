@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FocusRing } from 'react-focus-rings';
 
 import { Avatar as DefaultAvatar } from '../Avatar';
@@ -32,7 +32,9 @@ const UnMemoizedChannelPreviewMessenger = <
     channel,
     displayImage,
     displayTitle,
+    focusedChannel,
     latestMessage,
+    loadedChannels,
     setActiveChannel,
     unread,
     watchers,
@@ -55,6 +57,20 @@ const UnMemoizedChannelPreviewMessenger = <
     }
   };
 
+  const channelPreviewRef = useRef<HTMLButtonElement | null>(null);
+
+  const focused = focusedChannel === loadedChannels.indexOf(channel);
+
+  useEffect(() => {
+    if (focused && channelPreviewRef.current) channelPreviewRef.current.focus();
+  }, [focused]);
+
+  // const handleEnterPress = (event: KeyboardEvent) => {
+  //   if (event.key === 'Enter') {
+  //     onSelectChannel();
+  //   }
+  // };
+
   return (
     <FocusRing offset={-2}>
       <button
@@ -63,8 +79,9 @@ const UnMemoizedChannelPreviewMessenger = <
         className={`str-chat__channel-preview-messenger ${unreadClass} ${activeClass}`}
         data-testid='channel-preview-button'
         onClick={onSelectChannel}
-        ref={channelPreviewButton}
+        ref={channelPreviewRef}
         role='option'
+        tabIndex={-1}
       >
         <div className='str-chat__channel-preview-messenger--left'>
           <Avatar image={displayImage} name={avatarName} size={40} />

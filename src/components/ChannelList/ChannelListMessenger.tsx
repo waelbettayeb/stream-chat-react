@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react';
+import { FocusRing } from 'react-focus-rings';
 
 import { ChatDown, ChatDownProps } from '../ChatDown/ChatDown';
 import { LoadingChannels } from '../Loading/LoadingChannels';
@@ -70,9 +71,17 @@ export const ChannelListMessenger = <
 
   return (
     <div className='str-chat__channel-list-messenger'>
-      <div className='str-chat__channel-list-messenger__main' role='listbox'>
-        {children}
-      </div>
+      <FocusRing offset={{ left: 5, right: 4 }}>
+        <div
+          className='str-chat__channel-list-messenger__main'
+          // {...props}
+          role='listbox'
+          style={{ outline: 'none' }}
+          tabIndex={0}
+        >
+          {children}
+        </div>
+      </FocusRing>
     </div>
   );
 };

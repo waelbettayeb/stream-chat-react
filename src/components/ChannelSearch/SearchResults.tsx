@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FocusRing } from 'react-focus-rings';
 
 import { ChannelOrUserResponse, isChannel } from './utils';
@@ -90,6 +90,12 @@ const DefaultSearchResultItem = <
 
   const focused = focusedUser === index;
 
+  const resultRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (resultRef.current && focused) resultRef.current.focus();
+  }, [resultRef]);
+
   if (isChannel(result)) {
     const channel = result;
 
@@ -99,6 +105,7 @@ const DefaultSearchResultItem = <
           aria-label={`Select Channel: ${channel.data?.name || channel.id}`}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(channel)}
+          ref={resultRef}
         >
           <div className='result-hashtag'>#</div>
           <p className='channel-search__result-text'>{channel.data?.name}</p>
@@ -112,6 +119,7 @@ const DefaultSearchResultItem = <
           aria-label={`Select User Channel: ${result.name || result.id}`}
           className={`str-chat__channel-search-result ${focused ? 'focused' : ''}`}
           onClick={() => selectResult(result)}
+          ref={resultRef}
         >
           <Avatar image={result.image} user={result} />
           {result.name || result.id}
@@ -197,6 +205,14 @@ export const SearchResults = <
         if (focusedUser !== undefined) {
           selectResult(results[focusedUser]);
           return setFocusedUser(undefined);
+        }
+      }
+
+      if (event.key === 'Tab' && !event.shiftKey) {
+        event.preventDefault();
+        if (focusedUser !== undefined) {
+          // selectResult(results[focusedUser]);
+          return;
         }
       }
     },
