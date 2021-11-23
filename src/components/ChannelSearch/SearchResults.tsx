@@ -215,6 +215,14 @@ export const SearchResults = <
           return;
         }
       }
+
+      // if (event.key === 'Escape') {
+      //   event.preventDefault();
+      //   if (focusedUser !== undefined) {
+      //     // selectResult(results[focusedUser]);
+      //     return;
+      //   }
+      // }
     },
     [focusedUser],
   );
