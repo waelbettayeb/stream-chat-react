@@ -10,6 +10,9 @@ import {
   Thread,
   Window,
 } from 'stream-chat-react';
+
+import { ChannelInner } from './components/ChannelInner'
+
 import '@stream-io/stream-chat-css/dist/css/index.css';
 import './App.css';
 
@@ -29,18 +32,15 @@ if (process.env.REACT_APP_CHAT_SERVER_ENDPOINT) {
 
 chatClient.connectUser({ id: userId }, userToken);
 
-const App = () => (
-  <Chat client={chatClient}>
+const App = () => {
+  return (
+    <Chat client={chatClient} theme={undefined}>
     <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
     <Channel>
-      <Window>
-        <ChannelHeader />
-        <MessageList />
-        <MessageInput focus />
-      </Window>
-      <Thread />
+      <ChannelInner />
     </Channel>
   </Chat>
-);
+  )
+};
 
 export default App;

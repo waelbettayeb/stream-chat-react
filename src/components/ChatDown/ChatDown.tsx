@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LoadingChannels } from '../Loading/LoadingChannels';
 
-import placeholder from '../../assets/str-chat__connection-error.svg';
+// import placeholder from '../../assets/str-chat__connection-error.svg';
 import { useTranslationContext } from '../../context/TranslationContext';
 
 export type ChatDownProps = {
@@ -23,7 +23,7 @@ const UnMemoizedChatDown: React.FC<ChatDownProps> = (props) => {
     <div className='str-chat__down'>
       <LoadingChannels />
       <div className='str-chat__down-main'>
-        <img alt='Connection error' data-testid='chatdown-img' src={image || placeholder} />
+        <img alt='Connection error' data-testid='chatdown-img' src={image} />
         <h1>{type}</h1>
         <h3 aria-live='assertive'>
           {text || t('Error connecting to chat, refresh the page to try again.')}

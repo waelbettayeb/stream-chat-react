@@ -220,7 +220,6 @@ const UnMemoizedChannelList = <
       let customActiveChannelObject = channels.find((chan) => chan.id === customActiveChannel);
 
       if (!customActiveChannelObject) {
-        //@ts-expect-error
         [customActiveChannelObject] = await client.queryChannels({ id: customActiveChannel });
       }
 
