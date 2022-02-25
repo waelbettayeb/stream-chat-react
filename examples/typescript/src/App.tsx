@@ -7,11 +7,13 @@ import {
   ChannelList,
   MessageList,
   MessageInput,
+  MessageSearchList,
   Thread,
+  MessageSearchListInputProps,
   Window,
 } from 'stream-chat-react';
 
-import { ChannelInner } from './components/ChannelInner'
+// import { ChannelInner } from './components/ChannelInner'
 
 import '@stream-io/stream-chat-css/dist/css/index.css';
 import './App.css';
@@ -33,12 +35,35 @@ if (process.env.REACT_APP_CHAT_SERVER_ENDPOINT) {
 chatClient.connectUser({ id: userId }, userToken);
 
 const App = () => {
+  const NewInput = (props: MessageSearchListInputProps) => {
+    const { onSearch, query } = props;
+
+    console.log('query in input:', query);
+
+    return (
+      <input
+        onChange={(event: React.BaseSyntheticEvent) => onSearch(event)}
+        placeholder='Search'
+        type='text'
+        value={query}
+    />
+    )
+  }
+
+  
   return (
     <Chat client={chatClient} theme={undefined}>
-    <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
-    <Channel>
-      <ChannelInner />
-    </Channel>
+      <MessageSearchList SearchInput={NewInput} />
+        <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
+        <Channel>
+          <Window>
+            <ChannelHeader />
+            {/* {query ? <div>{query}</div> : <MessageList />} */}
+            <MessageList />
+            <MessageInput grow focus />
+          </Window>
+          <Thread />
+        </Channel>
   </Chat>
   )
 };

@@ -325,8 +325,6 @@ const ChannelInner = <
     initialState,
   );
 
-  console.log('channel IS:', channel);
-
   const isMounted = useIsMounted();
 
   const originalTitle = useRef('');
