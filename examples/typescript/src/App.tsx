@@ -38,19 +38,16 @@ const App = () => {
   const NewInput = (props: MessageSearchListInputProps) => {
     const { onSearch, query } = props;
 
-    console.log('query in input:', query);
-
     return (
       <input
         onChange={(event: React.BaseSyntheticEvent) => onSearch(event)}
-        placeholder='Search'
+        placeholder='Search for Messages'
         type='text'
         value={query}
     />
     )
   }
 
-  
   return (
     <Chat client={chatClient} theme={undefined}>
       <MessageSearchList SearchInput={NewInput} />

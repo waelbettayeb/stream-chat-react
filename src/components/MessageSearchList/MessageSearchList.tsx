@@ -5,7 +5,7 @@ import { MessageSearchResults } from './MessageSearchResults';
 
 import { useChatContext } from '../../context/ChatContext';
 
-// import type { StreamMessage } from '../../context/ChannelStateContext';
+import type { StreamMessage } from '../../context/ChannelStateContext';
 
 import type {
   DefaultAttachmentType,
@@ -65,7 +65,7 @@ export const MessageSearchList = <
   const { client } = useChatContext<At, Ch, Co, Ev, Me, Re, Us>('MessageSearchList');
 
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Array<any>>([]);
+  const [results, setResults] = useState<Array<StreamMessage<At, Ch, Co, Ev, Me, Re, Us>>>([]);
 
   const [searching, setSearching] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -81,11 +81,11 @@ export const MessageSearchList = <
     setSearching(true);
 
     try {
-      const filters = { members: { $in: ['anna-baldy'] } };
-      const response = await client.search(filters, text, { limit: 2, offset: 0 });
+      const filters = { members: { $in: [client.userID] } };
+      const response = await client.search(filters, text, { limit: 30, offset: 0 });
 
       const resolved = await Promise.resolve(response);
-      const messages = resolved.results.map((result) => result.message);
+      const messages = resolved.results.map((result: StreamMessage) => result.message);
 
       setResults(messages);
     } catch (error) {
