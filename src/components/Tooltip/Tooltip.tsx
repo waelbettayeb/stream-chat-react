@@ -1,10 +1,5 @@
-import React from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
 
-export const Tooltip: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
-  const { children, ...rest } = props;
-  return (
-    <div className='str-chat__tooltip' {...rest}>
-      {children}
-    </div>
-  );
-};
+export type TooltipProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+
+export const Tooltip = (props: TooltipProps) => <div className='str-chat__tooltip' {...props} />;
