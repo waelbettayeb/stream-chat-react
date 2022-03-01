@@ -62,7 +62,7 @@ export const MessageSearchList = <
 ) => {
   const { SearchInput } = props;
 
-  const { client } = useChatContext<At, Ch, Co, Ev, Me, Re, Us>('MessageSearchList');
+  const { channel, client } = useChatContext<At, Ch, Co, Ev, Me, Re, Us>('MessageSearchList');
 
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Array<StreamMessage<At, Ch, Co, Ev, Me, Re, Us>>>([]);
@@ -82,7 +82,7 @@ export const MessageSearchList = <
 
     try {
       const filters = { members: { $in: [client.userID] } };
-      const response = await client.search(filters, text, { limit: 30, offset: 0 });
+      const response = await client.search(filters, text);
 
       const resolved = await Promise.resolve(response);
       const messages = resolved.results.map((result: StreamMessage) => result.message);
@@ -104,10 +104,24 @@ export const MessageSearchList = <
     getMessagesThrottled(event.target.value);
   };
 
+  const selectMessage = (result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>) => {
+    if (!client.userID) return;
+
+    channel.state.loadMessageIntoState(result.id);
+
+    clearState();
+  };
+
   return (
     <>
       <SearchInput inputRef={inputRef} onSearch={onSearch} query={query} />
-      {query && <MessageSearchResults results={results} searching={searching} />}
+      {query && (
+        <MessageSearchResults
+          results={results}
+          searching={searching}
+          selectMessage={selectMessage}
+        />
+      )}
     </>
   );
 };

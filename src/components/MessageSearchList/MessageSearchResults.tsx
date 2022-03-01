@@ -31,6 +31,7 @@ export type MessageSearchResultsProps<
 > = {
   results: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>[];
   searching: boolean;
+  selectMessage: (result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>) => Promise<void> | void;
 };
 
 export const MessageSearchResults = <
@@ -44,7 +45,7 @@ export const MessageSearchResults = <
 >(
   props: MessageSearchResultsProps<At, Ch, Co, Ev, Me, Re, Us>,
 ) => {
-  const { results, searching } = props;
+  const { results, searching, selectMessage } = props;
 
   const { t } = useTranslationContext('SearchResults');
 
@@ -57,9 +58,12 @@ export const MessageSearchResults = <
       const message = messageList[streamMessageIndex];
 
       return (
-        <div>
+        <button
+          aria-label={`Select Message: ${message?.text || ''}`}
+          onClick={() => selectMessage(message)}
+        >
           Message: {message.text}, {message.id}{' '}
-        </div>
+        </button>
       );
     },
     [],

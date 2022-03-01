@@ -50,8 +50,8 @@ const App = () => {
 
   return (
     <Chat client={chatClient} theme={undefined}>
-      <MessageSearchList SearchInput={NewInput} />
         <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
+        <MessageSearchList SearchInput={NewInput} />
         <Channel>
           <Window>
             <ChannelHeader />
