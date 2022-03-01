@@ -3,6 +3,7 @@ import throttle from 'lodash.throttle';
 
 import { MessageSearchResults } from './MessageSearchResults';
 
+import { useChannelStateContext } from '../../context/ChannelStateContext';
 import { useChatContext } from '../../context/ChatContext';
 
 import type { StreamMessage } from '../../context/ChannelStateContext';
@@ -63,6 +64,7 @@ export const MessageSearchList = <
   const { SearchInput } = props;
 
   const { channel, client } = useChatContext<At, Ch, Co, Ev, Me, Re, Us>('MessageSearchList');
+  const { selectMessageFromSearch } = useChannelStateContext('MessageSearchList');
 
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Array<StreamMessage<At, Ch, Co, Ev, Me, Re, Us>>>([]);
@@ -79,9 +81,10 @@ export const MessageSearchList = <
   const getMessages = async (text: string) => {
     if (!text || searching) return;
     setSearching(true);
+    setResults([]);
 
     try {
-      const filters = { members: { $in: [client.userID] } };
+      const filters = { id: channel.id, members: { $in: [client.userID] } };
       const response = await client.search(filters, text);
 
       const resolved = await Promise.resolve(response);
@@ -104,22 +107,15 @@ export const MessageSearchList = <
     getMessagesThrottled(event.target.value);
   };
 
-  const selectMessage = (result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>) => {
-    if (!client.userID) return;
-
-    channel.state.loadMessageIntoState(result.id);
-
-    clearState();
-  };
-
   return (
     <>
       <SearchInput inputRef={inputRef} onSearch={onSearch} query={query} />
       {query && (
         <MessageSearchResults
+          clearState={clearState}
           results={results}
           searching={searching}
-          selectMessage={selectMessage}
+          selectMessage={selectMessageFromSearch}
         />
       )}
     </>

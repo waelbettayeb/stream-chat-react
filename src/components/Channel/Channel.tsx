@@ -753,6 +753,18 @@ const ChannelInner = <
 
   const { typing, ...restState } = state;
 
+  const selectMessageFromSearch = async (result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>) => {
+    const activeChannel = channel;
+
+    try {
+      await activeChannel?.state.loadMessageIntoState(result.id);
+
+      dispatch({ channel: activeChannel, type: 'loadMessagesIntoContextAfterSearch' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const channelStateContextValue = useCreateChannelStateContext({
     ...restState,
     acceptedFiles,
@@ -765,6 +777,7 @@ const ChannelInner = <
     mutes,
     notifications,
     quotedMessage,
+    selectMessageFromSearch,
     watcher_count: state.watcherCount,
   });
 
@@ -781,6 +794,7 @@ const ChannelInner = <
       openThread,
       removeMessage,
       retrySendMessage,
+      selectMessageFromSearch,
       sendMessage,
       setQuotedMessage,
       skipMessageDataMemoization,

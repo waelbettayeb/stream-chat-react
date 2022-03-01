@@ -52,6 +52,10 @@ export type ChannelStateReducerAction<
     }
   | {
       channel: Channel<At, Ch, Co, Ev, Me, Re, Us>;
+      type: 'loadMessagesIntoContextAfterSearch';
+    }
+  | {
+      channel: Channel<At, Ch, Co, Ev, Me, Re, Us>;
       message: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>;
       type: 'openThread';
     }
@@ -171,6 +175,14 @@ export const channelReducer = <
         threadHasMore,
         threadLoadingMore: false,
         threadMessages,
+      };
+    }
+
+    case 'loadMessagesIntoContextAfterSearch': {
+      const { channel } = action;
+      return {
+        ...state,
+        messages: [...channel.state.messages],
       };
     }
 

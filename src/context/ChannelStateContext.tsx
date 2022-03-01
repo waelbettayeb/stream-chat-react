@@ -78,6 +78,9 @@ export type ChannelStateContextValue<
   channelConfig: ChannelConfigWithInfo<Co> | undefined;
   multipleUploads: boolean;
   notifications: ChannelNotifications;
+  selectMessageFromSearch: (
+    result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>,
+  ) => Promise<void> | void;
   acceptedFiles?: string[];
   dragAndDropWindow?: boolean;
   maxNumberOfFiles?: number;

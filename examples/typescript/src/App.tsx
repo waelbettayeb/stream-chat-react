@@ -43,6 +43,7 @@ const App = () => {
         onChange={(event: React.BaseSyntheticEvent) => onSearch(event)}
         placeholder='Search for Messages'
         type='text'
+        style={{ height: '200px', display: 'display-block'}}
         value={query}
     />
     )
@@ -51,8 +52,8 @@ const App = () => {
   return (
     <Chat client={chatClient} theme={undefined}>
         <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
-        <MessageSearchList SearchInput={NewInput} />
         <Channel>
+          <MessageSearchList SearchInput={NewInput} />
           <Window>
             <ChannelHeader />
             {/* {query ? <div>{query}</div> : <MessageList />} */}

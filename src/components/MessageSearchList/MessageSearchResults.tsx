@@ -29,6 +29,7 @@ export type MessageSearchResultsProps<
   Re extends DefaultReactionType = DefaultReactionType,
   Us extends DefaultUserType<Us> = DefaultUserType
 > = {
+  clearState: () => void;
   results: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>[];
   searching: boolean;
   selectMessage: (result: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>) => Promise<void> | void;
@@ -45,7 +46,7 @@ export const MessageSearchResults = <
 >(
   props: MessageSearchResultsProps<At, Ch, Co, Ev, Me, Re, Us>,
 ) => {
-  const { results, searching, selectMessage } = props;
+  const { clearState, results, searching, selectMessage } = props;
 
   const { t } = useTranslationContext('SearchResults');
 
@@ -60,7 +61,10 @@ export const MessageSearchResults = <
       return (
         <button
           aria-label={`Select Message: ${message?.text || ''}`}
-          onClick={() => selectMessage(message)}
+          onClick={() => {
+            selectMessage(message);
+            clearState();
+          }}
         >
           Message: {message.text}, {message.id}{' '}
         </button>
@@ -82,6 +86,7 @@ export const MessageSearchResults = <
       firstItemIndex={PREPEND_OFFSET - numItemsPrepended}
       initialTopMostItemIndex={results.length ? results.length - 1 : 0}
       itemContent={(i) => messageRenderer(results, i)}
+      style={{ display: 'flex', width: '100px', zIndex: 1000 }}
       totalCount={results.length}
     />
   );
