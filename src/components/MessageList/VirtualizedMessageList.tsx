@@ -166,8 +166,6 @@ const VirtualizedMessageListWithContext = <
     client.userID,
   ]);
 
-  console.log('processedMessages:', processedMessages);
-
   const virtuoso = useRef<VirtuosoHandle>(null);
 
   const {
@@ -217,8 +215,6 @@ const VirtualizedMessageListWithContext = <
     (messageList: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>[], virtuosoIndex: number) => {
       const streamMessageIndex = virtuosoIndex + numItemsPrepended - PREPEND_OFFSET;
       // use custom renderer supplied by client if present and skip the rest
-
-      console.log('in the messageList in custom Rendered:', messageList);
 
       if (customMessageRenderer) {
         return customMessageRenderer(messageList, streamMessageIndex);
@@ -311,8 +307,6 @@ const VirtualizedMessageListWithContext = <
 
   const virtualizedMessageListClass =
     customClasses?.virtualizedMessageList || 'str-chat__virtual-list';
-
-  console.log('results is:', processedMessages);
 
   return (
     <>

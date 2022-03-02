@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import throttle from 'lodash.throttle';
 
 import { MessageSearchResults } from './MessageSearchResults';
@@ -45,8 +45,8 @@ export type MessageSearchListProps<
   // Re extends DefaultReactionType = DefaultReactionType,
   // Us extends DefaultUserType<Us> = DefaultUserType
 > = {
-  /** Custom Input component handling how the message input is rendered */
-  SearchInput: React.ComponentType<MessageSearchListInputProps>;
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
   // will include channel and message filters
 };
 
@@ -61,16 +61,13 @@ export const MessageSearchList = <
 >(
   props: MessageSearchListProps,
 ) => {
-  const { SearchInput } = props;
+  const { query, setQuery } = props;
 
   const { channel, client } = useChatContext<At, Ch, Co, Ev, Me, Re, Us>('MessageSearchList');
   const { selectMessageFromSearch } = useChannelStateContext('MessageSearchList');
 
-  const [query, setQuery] = useState('');
   const [results, setResults] = useState<Array<StreamMessage<At, Ch, Co, Ev, Me, Re, Us>>>([]);
-
   const [searching, setSearching] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const clearState = () => {
     setQuery('');
@@ -99,17 +96,14 @@ export const MessageSearchList = <
     setSearching(false);
   };
 
-  const getMessagesThrottled = throttle(getMessages, 200);
+  useEffect(() => {
+    const getMessagesThrottled = throttle(getMessages, 200);
 
-  const onSearch = (event: React.BaseSyntheticEvent) => {
-    event.preventDefault();
-    setQuery(event.target.value);
-    getMessagesThrottled(event.target.value);
-  };
+    getMessagesThrottled(query);
+  }, [query]);
 
   return (
     <>
-      <SearchInput inputRef={inputRef} onSearch={onSearch} query={query} />
       {query && (
         <MessageSearchResults
           clearState={clearState}
