@@ -5,7 +5,7 @@ import {
   Channel,
   ChannelHeader,
   ChannelList,
-  VirtualizedMessageList,
+  MessageList,
   MessageInput,
   MessageSearchList,
   Thread,
@@ -55,7 +55,7 @@ const App = () => {
           <MessageSearchList {...{ query, setQuery }} />
           <Window>
             <ChannelHeader />
-            <VirtualizedMessageList />
+            <MessageList />
             <MessageInput grow focus />
           </Window>
           <Thread />

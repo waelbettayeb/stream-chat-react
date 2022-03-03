@@ -7,7 +7,7 @@ import type { LoadingIndicatorProps } from '../Loading/LoadingIndicator';
 
 export type InfiniteScrollPaginatorProps = {
   /** callback to load the next page */
-  loadNextPage: () => void;
+  loadNextPage: (limit?: number, direction?: 'older' | 'newer') => void;
   /** indicates if there is a next page to load */
   hasNextPage?: boolean;
   /** The loading indicator to use */

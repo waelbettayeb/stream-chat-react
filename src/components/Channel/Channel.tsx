@@ -510,11 +510,12 @@ const ChannelInner = <
     },
   );
 
-  const loadMore = async (limit = 100) => {
+  const loadMore = async (limit = 100, direction: 'older' | 'newer' = 'newer') => {
     if (!online.current || !window.navigator.onLine) return 0;
 
     // prevent duplicate loading events...
-    const oldestMessage = state?.messages?.[0];
+    const oldestMessage =
+      state?.messages?.[direction === 'older' ? 0 : state?.messages?.length - 1];
 
     if (state.loadingMore || oldestMessage?.status !== 'received') return 0;
 
@@ -531,10 +532,16 @@ const ChannelInner = <
     let queryResponse: ChannelAPIResponse<At, Ch, Co, Me, Re, Us>;
 
     try {
-      queryResponse = await channel.query({
-        messages: { id_lt: oldestID, limit: perPage },
-        watchers: { limit: perPage },
-      });
+      queryResponse = await channel.query(
+        {
+          messages: {
+            [direction === 'older' ? 'id_lt' : 'id_gt']: oldestID,
+            limit: perPage,
+          },
+          watchers: { limit: perPage },
+        },
+        'current',
+      );
     } catch (e) {
       console.warn('message pagination request failed with error', e);
       dispatch({ loadingMore: false, type: 'setLoadingMore' });

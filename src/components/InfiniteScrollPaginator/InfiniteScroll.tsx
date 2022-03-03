@@ -38,7 +38,7 @@ export type InfiniteScrollProps = {
   listenToScroll?: (offset: number, reverseOffset: number, threshold: number) => void;
   loader?: React.ReactNode;
   loading?: React.ReactNode;
-  loadMore?: () => void;
+  loadMore?: (limit?: number, direction?: 'older' | 'newer') => void;
   pageStart?: number;
   threshold?: number;
   useCapture?: boolean;
@@ -94,6 +94,8 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
       loadMore();
     }
   }, [hasMore, useWindow, isReverse, threshold, listenToScroll, loadMore]);
+
+  /// loadMore('newest') if scrolled to the bottom...
 
   useEffect(() => {
     const scrollElement = useWindow ? window : scrollComponent.current?.parentNode;

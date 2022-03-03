@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useCallLoadMore } from './hooks/useCallLoadMore';
+// import { useCallLoadMore } from './hooks/useCallLoadMore';
 import { useEnrichedMessages } from './hooks/useEnrichedMessages';
 import { useMessageListElements } from './hooks/useMessageListElements';
 import { useScrollLocationLogic } from './hooks/useScrollLocationLogic';
@@ -59,7 +59,7 @@ const useInternalInfiniteScrollProps = (
         <LoadingIndicator size={20} />
       </Center>
     ),
-    loadMore: useCallLoadMore(props.loadMore, props.messageLimit || 100),
+    loadMore: props.loadMore,
     ...props.internalInfiniteScrollProps,
   };
 };
@@ -271,7 +271,7 @@ export type MessageListProps<
   noGroupByUser?: boolean;
   /** If true, `readBy` data supplied to the `Message` components will include all user read states per sent message */
   returnAllReadData?: boolean;
-  /** The pixel threshold to determine whether or not the user is scrolled up in the list, defaults to 200px */
+  /** The pixel threshold to determine whether or not the user is scrolled up in the list, defaults to 250px */
   scrolledUpThreshold?: number;
   /** If true, indicates the message list is a thread  */
   threadList?: boolean;

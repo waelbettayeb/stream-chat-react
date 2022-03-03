@@ -72,7 +72,7 @@ export type ChannelActionContextValue<
   editMessage: (
     message: UpdatedMessage<At, Ch, Co, Me, Re, Us>,
   ) => Promise<UpdateMessageAPIResponse<At, Ch, Co, Me, Re, Us> | void>;
-  loadMore: (limit?: number) => Promise<number>;
+  loadMore: (limit?: number, direction?: 'older' | 'newer') => Promise<number>;
   loadMoreThread: () => Promise<void>;
   onMentionsClick: CustomMentionHandler<Us>;
   onMentionsHover: CustomMentionHandler<Us>;

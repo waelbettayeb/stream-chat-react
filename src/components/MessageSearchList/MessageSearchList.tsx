@@ -22,20 +22,6 @@ import type {
 // const DEFAULT_OPTIONS = {};
 // const DEFAULT_SORT = {};
 
-export type MessageSearchListInputProps<
-  // At extends DefaultAttachmentType = DefaultAttachmentType,
-  // Ch extends DefaultChannelType = DefaultChannelType,
-  // Co extends DefaultCommandType = DefaultCommandType,
-  // Ev extends DefaultEventType = DefaultEventType,
-  // Me extends DefaultMessageType = DefaultMessageType,
-  // Re extends DefaultReactionType = DefaultReactionType,
-  // Us extends DefaultUserType<Us> = DefaultUserType
-> = {
-  inputRef: React.RefObject<HTMLInputElement>;
-  onSearch: (event: React.BaseSyntheticEvent) => void;
-  query: string;
-};
-
 export type MessageSearchListProps<
   // At extends DefaultAttachmentType = DefaultAttachmentType,
   // Ch extends DefaultChannelType = DefaultChannelType,
