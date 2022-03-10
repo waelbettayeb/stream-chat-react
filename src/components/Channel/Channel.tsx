@@ -316,6 +316,7 @@ const ChannelInner = <
 
   const [channelConfig, setChannelConfig] = useState(channel.getConfig());
   const [notifications, setNotifications] = useState<ChannelNotifications>([]);
+  const [jumpToMessageId, setJumpToMessageId] = useState<string | undefined>('');
   const [quotedMessage, setQuotedMessage] = useState<StreamMessage<At, Ch, Co, Ev, Me, Re, Us>>();
 
   const notificationTimeouts: Array<NodeJS.Timeout> = [];
@@ -510,7 +511,22 @@ const ChannelInner = <
     },
   );
 
-  const loadMore = async (limit = 100, direction: 'older' | 'newer' = 'newer') => {
+  const loadMoreNewerFinished = debounce(
+    (hasMoreNewer: boolean, messages: ChannelState<At, Ch, Co, Ev, Me, Re, Us>['messages']) => {
+      if (!isMounted.current) return;
+      dispatch({ hasMoreNewer, messages, type: 'loadMoreNewerFinished' });
+    },
+    2000,
+    {
+      leading: true,
+      trailing: true,
+    },
+  );
+
+  const listShowingLatestMessages =
+    channel.state.messageSets[0].isLatest && channel.state.messageSets[0].isCurrent;
+
+  const loadMore = async (limit = 100, direction: 'older' | 'newer' = 'older') => {
     if (!online.current || !window.navigator.onLine) return 0;
 
     // prevent duplicate loading events...
@@ -532,16 +548,12 @@ const ChannelInner = <
     let queryResponse: ChannelAPIResponse<At, Ch, Co, Me, Re, Us>;
 
     try {
-      queryResponse = await channel.query(
-        {
-          messages: {
-            [direction === 'older' ? 'id_lt' : 'id_gt']: oldestID,
-            limit: perPage,
-          },
-          watchers: { limit: perPage },
+      queryResponse = await channel.query({
+        messages: {
+          [direction === 'older' ? 'id_lt' : 'id_gt']: oldestID,
         },
-        'current',
-      );
+        watchers: { limit: perPage },
+      });
     } catch (e) {
       console.warn('message pagination request failed with error', e);
       dispatch({ loadingMore: false, type: 'setLoadingMore' });
@@ -549,7 +561,11 @@ const ChannelInner = <
     }
 
     const hasMoreMessages = queryResponse.messages.length === perPage;
-    loadMoreFinished(hasMoreMessages, channel.state.messages);
+    if (direction === 'newer') {
+      loadMoreNewerFinished(hasMoreMessages, channel.state.messages);
+    } else {
+      loadMoreFinished(hasMoreMessages, channel.state.messages);
+    }
 
     return queryResponse.messages.length;
   };
@@ -766,7 +782,11 @@ const ChannelInner = <
     try {
       await activeChannel?.state.loadMessageIntoState(result.id);
 
-      dispatch({ channel: activeChannel, type: 'loadMessagesIntoContextAfterSearch' });
+      dispatch({
+        channel: activeChannel,
+        type: 'loadMessagesIntoContextAfterSearch',
+      });
+      setJumpToMessageId(result.id);
     } catch (error) {
       console.error(error);
     }
@@ -779,6 +799,8 @@ const ChannelInner = <
     channelCapabilitiesArray,
     channelConfig,
     dragAndDropWindow,
+    jumpToMessageId,
+    listShowingLatestMessages,
     maxNumberOfFiles,
     multipleUploads,
     mutes,
@@ -803,11 +825,12 @@ const ChannelInner = <
       retrySendMessage,
       selectMessageFromSearch,
       sendMessage,
+      setJumpToMessageId,
       setQuotedMessage,
       skipMessageDataMemoization,
       updateMessage,
     }),
-    [channel.cid, loadMore, quotedMessage],
+    [channel.cid, loadMore, jumpToMessageId, quotedMessage],
   );
 
   const componentContextValue: ComponentContextValue<At, Ch, Co, Ev, Me, Re, Us> = useMemo(

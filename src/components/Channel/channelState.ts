@@ -44,6 +44,11 @@ export type ChannelStateReducerAction<
       type: 'loadMoreFinished';
     }
   | {
+      hasMoreNewer: boolean;
+      messages: StreamMessage<At, Ch, Co, Ev, Me, Re, Us>[];
+      type: 'loadMoreNewerFinished';
+    }
+  | {
       threadHasMore: boolean;
       threadMessages: Array<
         ReturnType<StreamChannelState<At, Ch, Co, Ev, Me, Re, Us>['formatMessage']>
@@ -168,6 +173,16 @@ export const channelReducer = <
       };
     }
 
+    case 'loadMoreNewerFinished': {
+      const { hasMoreNewer, messages } = action;
+      return {
+        ...state,
+        hasMoreNewer,
+        loadingMore: false,
+        messages,
+      };
+    }
+
     case 'loadMoreThreadFinished': {
       const { threadHasMore, threadMessages } = action;
       return {
@@ -244,6 +259,8 @@ export const channelReducer = <
 export const initialState = {
   error: null,
   hasMore: true,
+  hasMoreNewer: true,
+  jumpToMessageId: null,
   loading: true,
   loadingMore: false,
   members: {},

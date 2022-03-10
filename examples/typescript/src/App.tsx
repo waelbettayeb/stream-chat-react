@@ -34,7 +34,7 @@ chatClient.connectUser({ id: userId }, userToken);
 const App = () => {
   const [query, setQuery] = useState('');
 
-  const MessgaeSearchInput = () => {
+  const MessageSearchInput = () => {
     return (
       <input
         onChange={(event: React.BaseSyntheticEvent) => setQuery(event.target.value)}
@@ -46,12 +46,11 @@ const App = () => {
     )
   }
 
-
   return (
     <Chat client={chatClient} theme={undefined}>
         <ChannelList filters={filters} sort={sort} options={options} showChannelSearch />
         <Channel>
-          <MessgaeSearchInput />
+          <MessageSearchInput />
           <MessageSearchList {...{ query, setQuery }} />
           <Window>
             <ChannelHeader />

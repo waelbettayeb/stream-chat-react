@@ -139,6 +139,7 @@ export const useMessageListElements = <
           <li
             className={messageClass}
             data-testid={messageClass}
+            id={message.id}
             key={message.id || (message.created_at as string)}
             onLoadCapture={onMessageLoadCaptured}
           >

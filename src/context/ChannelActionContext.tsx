@@ -86,6 +86,7 @@ export type ChannelActionContextValue<
     message: MessageToSend<At, Ch, Co, Ev, Me, Re, Us>,
     customMessageData?: Partial<Message<At, Me, Us>>,
   ) => Promise<void>;
+  setJumpToMessageId: React.Dispatch<React.SetStateAction<string | undefined>>;
   setQuotedMessage: React.Dispatch<
     React.SetStateAction<StreamMessage<At, Ch, Co, Ev, Me, Re, Us> | undefined>
   >;

@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 
+import { useChannelActionContext } from '../../context/ChannelActionContext';
+import { useChannelStateContext } from '../../context/ChannelStateContext';
+
 /**
  * Prevents Chrome hangups
  * See: https://stackoverflow.com/questions/47524205/random-high-content-download-time-in-chrome/47684257#47684257
@@ -32,6 +35,7 @@ export type InfiniteScrollProps = {
   className?: string;
   element?: React.ElementType;
   hasMore?: boolean;
+  hasMoreNewer?: boolean;
   initialLoad?: boolean;
   isLoading?: boolean;
   isReverse?: boolean;
@@ -50,6 +54,7 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
     children,
     element = 'div',
     hasMore = false,
+    hasMoreNewer = false,
     initialLoad = true,
     isLoading = false,
     isReverse = false,
@@ -61,6 +66,9 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
     useWindow = true,
     ...elementProps
   } = props;
+
+  const { setJumpToMessageId } = useChannelActionContext('InfiniteScroll');
+  const { jumpToMessageId, listShowingLatestMessages } = useChannelStateContext('InfiniteScroll');
 
   const scrollComponent = useRef<HTMLElement>();
 
@@ -84,6 +92,14 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
       listenToScroll(offset, reverseOffset, threshold);
     }
 
+    console.log('listShowingLatestMessages IS:', listShowingLatestMessages);
+
+    // scrollHeight = pixel value of the element.
+    // scrollTop = measurement of the distance from the element's top to its topmost visible content
+    // clientHeight = number representing the inner height of the element
+    // offset - pixels from bottom
+    // threshold - 250px
+
     // Here we make sure the element is visible as well as checking the offset
     if (
       (isReverse ? reverseOffset : offset) < Number(threshold) &&
@@ -91,11 +107,28 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
       typeof loadMore === 'function' &&
       hasMore
     ) {
+      console.log('in the LOADMORE');
       loadMore();
     }
-  }, [hasMore, useWindow, isReverse, threshold, listenToScroll, loadMore]);
 
-  /// loadMore('newest') if scrolled to the bottom...
+    // console.log('offset IS:', offset);
+    // console.log('threshold:', threshold);
+    // console.log('hasMoreNewer:', hasMoreNewer);
+    // console.log('!listShowingLatestMessages IS:', !listShowingLatestMessages);
+
+    /// yikes
+    // if (
+    //   scrollTop === 0 &&
+    //   offset < 10 &&
+    //   element.offsetParent !== null &&
+    //   typeof loadMore === 'function' &&
+    //   !listShowingLatestMessages &&
+    //   hasMoreNewer
+    // ) {
+    //   console.log('*********NEWER*******in the loadmore NEWER***');
+    //   loadMore(undefined, 'newer');
+    // }
+  }, [hasMore, hasMoreNewer, useWindow, isReverse, threshold, listenToScroll, loadMore]);
 
   useEffect(() => {
     const scrollElement = useWindow ? window : scrollComponent.current?.parentNode;
@@ -128,6 +161,18 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
     };
   }, [useCapture, useWindow]);
 
+  useEffect(() => {
+    if (jumpToMessageId) {
+      console.log('in the scroll into view');
+      document
+        .getElementById(jumpToMessageId)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return () => {
+      setJumpToMessageId(undefined);
+    };
+  }, [jumpToMessageId]);
+
   const attributes = {
     ...elementProps,
     ref: (element: HTMLElement) => {
@@ -137,7 +182,7 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = (props) => {
 
   const childrenArray = [children];
   if (isLoading && loader) {
-    if (isReverse) {
+    if (isReverse || hasMoreNewer) {
       childrenArray.unshift(loader);
     } else {
       childrenArray.push(loader);

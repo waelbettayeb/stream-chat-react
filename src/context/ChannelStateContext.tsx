@@ -48,6 +48,7 @@ export type ChannelState<
 > = {
   error?: Error | null;
   hasMore?: boolean;
+  hasMoreNewer?: boolean;
   loading?: boolean;
   loadingMore?: boolean;
   members?: StreamChannelState<At, Ch, Co, Ev, Me, Re, Us>['members'];
@@ -76,6 +77,7 @@ export type ChannelStateContextValue<
   channel: Channel<At, Ch, Co, Ev, Me, Re, Us>;
   channelCapabilities: Record<string, boolean>;
   channelConfig: ChannelConfigWithInfo<Co> | undefined;
+  listShowingLatestMessages: boolean;
   multipleUploads: boolean;
   notifications: ChannelNotifications;
   selectMessageFromSearch: (
@@ -83,6 +85,7 @@ export type ChannelStateContextValue<
   ) => Promise<void> | void;
   acceptedFiles?: string[];
   dragAndDropWindow?: boolean;
+  jumpToMessageId?: string;
   maxNumberOfFiles?: number;
   mutes?: Mute<Us>[];
   watcher_count?: number;

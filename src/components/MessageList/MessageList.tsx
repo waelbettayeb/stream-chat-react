@@ -44,7 +44,12 @@ import type {
 const useInternalInfiniteScrollProps = (
   props: Pick<
     MessageListWithContextProps,
-    'hasMore' | 'internalInfiniteScrollProps' | 'loadMore' | 'loadingMore' | 'messageLimit'
+    | 'hasMore'
+    | 'hasMoreNewer'
+    | 'internalInfiniteScrollProps'
+    | 'loadMore'
+    | 'loadingMore'
+    | 'messageLimit'
   >,
 ) => {
   const { LoadingIndicator = DefaultLoadingIndicator } = useComponentContext(
@@ -53,6 +58,7 @@ const useInternalInfiniteScrollProps = (
 
   return {
     hasMore: props.hasMore,
+    hasMoreNewer: props.hasMoreNewer,
     isLoading: props.loadingMore,
     loader: (
       <Center key='loadingindicator'>
@@ -251,6 +257,8 @@ export type MessageListProps<
   ) => GroupStyle;
   /** Whether or not the list has more items to load */
   hasMore?: boolean;
+  /** Whether or not the list has more items to load that are newer than the newest message in the set */
+  hasMoreNewer?: boolean;
   /** Position to render HeaderComponent */
   headerPosition?: number;
   /** Hides the MessageDeleted components from the list, defaults to `false` */
@@ -271,7 +279,7 @@ export type MessageListProps<
   noGroupByUser?: boolean;
   /** If true, `readBy` data supplied to the `Message` components will include all user read states per sent message */
   returnAllReadData?: boolean;
-  /** The pixel threshold to determine whether or not the user is scrolled up in the list, defaults to 250px */
+  /** The pixel threshold to determine whether or not the user is scrolled up in the list, defaults to 200px */
   scrolledUpThreshold?: number;
   /** If true, indicates the message list is a thread  */
   threadList?: boolean;
