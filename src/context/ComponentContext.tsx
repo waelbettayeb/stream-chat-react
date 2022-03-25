@@ -29,6 +29,7 @@ import type { SuggestionListHeaderProps } from '../components/AutoCompleteTextar
 import type { SendButtonProps } from '../components/MessageInput/icons';
 import type { ThreadHeaderProps } from '../components/Thread/Thread';
 import type { TypingIndicatorProps } from '../components/TypingIndicator/TypingIndicator';
+import type { MentionProps } from '../components/Mention';
 
 import type { CustomTrigger, DefaultStreamChatGenerics, UnknownType } from '../types/types';
 
@@ -52,6 +53,7 @@ export type ComponentContextValue<
   HeaderComponent?: React.ComponentType;
   Input?: React.ComponentType<MessageInputProps<StreamChatGenerics, V>>;
   LoadingIndicator?: React.ComponentType<LoadingIndicatorProps>;
+  Mention?: React.ComponentType<MentionProps<StreamChatGenerics>>;
   MessageDeleted?: React.ComponentType<MessageDeletedProps<StreamChatGenerics>>;
   MessageListNotifications?: React.ComponentType<MessageListNotificationsProps>;
   MessageNotification?: React.ComponentType<MessageNotificationProps>;

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import emojiRegex from 'emoji-regex';
 import * as linkify from 'linkifyjs';
 //@ts-expect-error
@@ -10,6 +10,8 @@ import uniqBy from 'lodash.uniqby';
 import type { UserResponse } from 'stream-chat';
 
 import type { DefaultStreamChatGenerics } from './types/types';
+
+import { Mention } from './components/Mention';
 
 export const isOnlyEmojis = (text?: string) => {
   if (!text) return false;
@@ -148,6 +150,7 @@ export const mentionsMarkdownPlugin = <
   }
 
   const transform = <T extends unknown>(markdownAST: T) => {
+    // TODO: investigate and remove this condition
     if (!mentioned_usernames.length) {
       return markdownAST;
     }
@@ -161,16 +164,6 @@ export const mentionsMarkdownPlugin = <
 
   return transform;
 };
-
-export type MentionProps<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = {
-  mentioned_user: UserResponse<StreamChatGenerics>;
-};
-
-const Mention = <StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics>(
-  props: PropsWithChildren<StreamChatGenerics>,
-) => <span className='str-chat__message-mention'>{props.children}</span>;
 
 export type RenderTextOptions = {
   customMarkDownRenderers?: {

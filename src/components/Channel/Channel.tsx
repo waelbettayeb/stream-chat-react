@@ -41,6 +41,7 @@ import {
 } from '../Loading';
 import { MessageSimple } from '../Message/MessageSimple';
 import { DropzoneProvider } from '../MessageInput/DropzoneProvider';
+import { DefaultMentionUI } from '../Mention';
 
 import {
   ChannelActionContextValue,
@@ -139,6 +140,8 @@ export type ChannelProps<
   LoadingIndicator?: ComponentContextValue<StreamChatGenerics>['LoadingIndicator'];
   /** Maximum number of attachments allowed per message */
   maxNumberOfFiles?: number;
+  /** Custom UI component to render in the `MessageSimple` */
+  Mention?: ComponentContextValue<StreamChatGenerics>['Mention'];
   /** Custom UI component to display a message in the standard `MessageList`, defaults to and accepts the same props as: [MessageSimple](https://github.com/GetStream/stream-chat-react/blob/master/src/components/Message/MessageSimple.tsx) */
   Message?: ComponentContextValue<StreamChatGenerics>['Message'];
   /** Custom UI component for a deleted message, defaults to and accepts same props as: [MessageDeleted](https://github.com/GetStream/stream-chat-react/blob/master/src/components/Message/MessageDeleted.tsx) */
@@ -807,7 +810,8 @@ const ChannelInner = <
       HeaderComponent: props.HeaderComponent,
       Input: props.Input,
       LoadingIndicator: props.LoadingIndicator,
-      Message: props.Message || MessageSimple,
+      Mention: props.Mention ?? DefaultMentionUI,
+      Message: props.Message ?? MessageSimple,
       MessageDeleted: props.MessageDeleted,
       MessageListNotifications: props.MessageListNotifications,
       MessageNotification: props.MessageNotification,

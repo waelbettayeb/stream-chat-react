@@ -31,3 +31,4 @@ export * from './Tooltip';
 export * from './TypingIndicator';
 export * from './UserItem';
 export * from './Window';
+export * from './Mention';
